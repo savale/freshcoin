@@ -1,0 +1,6 @@
+freshcoin-qt usr/bin
+share/pixmaps/freshcoin32.xpm usr/share/pixmaps
+share/pixmaps/freshcoin16.xpm usr/share/pixmaps
+share/pixmaps/freshcoin128.png usr/share/pixmaps
+debian/freshcoin-qt.desktop usr/share/applications
+debian/freshcoin-qt.protocol usr/share/kde4/services/

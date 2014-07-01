@@ -1,0 +1,12 @@
+[Desktop Entry]
+Encoding=UTF-8
+Name=Freshcoin
+Comment=Freshcoin P2P Cryptocurrency
+Comment[fr]=Freshcoin, monnaie virtuelle cryptographique pair à pair
+Comment[tr]=Freshcoin, eşten eşe kriptografik sanal para birimi
+Exec=freshcoin-qt %u
+Terminal=false
+Type=Application
+Icon=freshcoin128
+MimeType=x-scheme-handler/freshcoin;
+Categories=Office;Finance;
