@@ -36,6 +36,11 @@ using namespace boost;
 # error "Freshcoin cannot be compiled without assertions."
 #endif
 
+#define MINUTE      60   // 60 seconds
+#define HOUR        60   // 60 minutes
+#define DAY         24   // 24 hours
+#define HOUR_SEC    (HOUR * MINUTE)
+#define DAY_SEC     (DAY * HOUR_SEC)
 //
 // Global state
 //
@@ -57,9 +62,9 @@ unsigned int nCoinCacheSize = 5000;
 
 /** Fees smaller than this (in satoshi) are considered zero fee (for transaction creation) */
 //                              0.00000123
-int64_t CTransaction::nMinTxFee = 1000;  // Override with -mintxfee
+int64_t CTransaction::nMinTxFee = 10000;  // Override with -mintxfee
 /** Fees smaller than this (in satoshi) are considered zero fee (for relaying and mining) */
-int64_t CTransaction::nMinRelayTxFee = 500;
+int64_t CTransaction::nMinRelayTxFee = 5000;
 
 static CMedianFilter<int> cPeerBlockCounts(8, 0); // Amount of blocks that other nodes claim to have
 
@@ -707,10 +712,10 @@ static const int64_t TransactionFeeDividerSelf = 10000000; //divider for sending
 //The time when to begin sending transactions out with percentage based transaction fees
 
 
-static const time_t CoinLaunchTime=1402790400L; //Sat, 14 Jun 2014 20:00:00 -0400
-static const time_t PercentageFeeSendingBegin = CoinLaunchTime+(60*60*24*26); //26 days after launch
+static const time_t CoinLaunchTime=1404748800L; // 7 Jul 2014 16:00:00 GMT
+static const time_t PercentageFeeSendingBegin = CoinLaunchTime+(DAY_SEC*6); //6 days after launch
 //The time when to stop relaying free/cheap transactions and only relay ones with percentage fees
-static const time_t PercentageFeeRelayBegin = CoinLaunchTime+(60*60*24*28); //28 days after launch
+static const time_t PercentageFeeRelayBegin = CoinLaunchTime+(DAY_SEC*7); //7 days after launch
 
 
 int64_t GetMinFee(const CTransaction& tx, unsigned int nBytes, bool fAllowFree, enum GetMinFee_mode mode)
@@ -755,9 +760,9 @@ int64_t GetMinFee(const CTransaction& tx, unsigned int nBytes, bool fAllowFree, 
             }
         }
     }
-    if(nMinFee > COIN*2)
+    if(nMinFee > COIN*50) // max 50 coins fee.
     {
-        nMinFee=COIN*2;
+        nMinFee=COIN*50;
     }
     if (!MoneyRange(nMinFee))
         nMinFee = MAX_MONEY;
@@ -879,7 +884,7 @@ bool AcceptToMemoryPool(CTxMemPool& pool, CValidationState &state, const CTransa
             LOCK(csFreeLimiter);
 
             // Use an exponentially decaying ~10-minute window:
-            dFreeCount *= pow(1.0 - 1.0/600.0, (double)(nNow - nLastTime));
+            dFreeCount *= pow(1.0 - 1.0/(MINUTE * 10.0), (double)(nNow - nLastTime));
             nLastTime = nNow;
             // -limitfreerelay unit is thousand-bytes-per-minute
             // At default rate it would take over a month to fill 1GB
@@ -1146,25 +1151,22 @@ int static generateMTRandom(unsigned int s, int range)
     boost::uniform_int<> dist(1, range);
     return dist(gen);
 }
-//when to fix bug where fees aren't included in block value
-static const int64_t MAINNET_TXFEE_BLOCK_FORK=22500;
-static const int64_t TESTNET_TXFEE_BLOCK_FORK=9800;
+
 
 int64_t GetBlockValue(int nHeight, int64_t nFees, uint256 prevHash)
 {
-    //1M coins total. 5000 premine, 40 per block after, etc etc
+    //1M coins total. 50000 premine, 40 per block after, etc etc
     int64_t reward = 10 * COIN;
     int adjust=30+1; //30 blocks of zero rewards, to adjust difficulty and ensure fair launch (plus 1 for premine)
-    int firstreward=adjust+1*60*24; //first day of mining 
-    int secondreward=firstreward+(13*60*24); //next 13 days of mining
-    int thirdreward=secondreward+(13*60*24); //next 13 days of mining
-    int fourthreward=thirdreward+(1*60*24); //last day of "primary mining"
-    int finalreward=fourthreward+((60*24*221)-40); //final reward phase (after this, nothing)
-    bool withfees=nHeight > MAINNET_TXFEE_BLOCK_FORK | (nHeight>TESTNET_TXFEE_BLOCK_FORK && TestNet());
+    int firstreward=adjust+1*HOUR*DAY; //first day of mining 
+    int secondreward=firstreward+(2*HOUR*DAY); //next 13 days of mining
+    int thirdreward=secondreward+(3*HOUR*DAY); //next 13 days of mining
+    int fourthreward=thirdreward+(1*HOUR*DAY); //last day of "primary mining"
+    int finalreward=fourthreward+((HOUR*DAY*300)-40); //final reward phase (after this, nothing)
     int64_t sub=0;
     if(nHeight==1)
     {
-        sub=500*reward; //premine of 5000 coins, 0.5% of cap
+        sub=5000*reward; //premine of 50000 coins, 0.5% of cap
     }
     else if(nHeight < adjust)
     {
@@ -1172,39 +1174,30 @@ int64_t GetBlockValue(int nHeight, int64_t nFees, uint256 prevHash)
     }
     else if(nHeight < firstreward)
     {
-        sub=reward*4; //bonus phase of 40 coins 
+        sub=reward*100; //bonus phase of 1000 coins 
     }
     else if(nHeight<secondreward)
     {
-        sub=reward*2; //normal first phase of 20 coins
+        sub=reward*50; //normal first phase of 500 coins
     }
     else if(nHeight<thirdreward)
     {
-        if(nHeight>MAINNET_TXFEE_BLOCK_FORK && (nHeight < MAINNET_TXFEE_BLOCK_FORK+60*6))
-        {
-            sub=reward*2; //bonus round for forking 
-        }else{
-            sub=reward*1; //normal last phase of 10 coin
-        }
+        sub=reward*25; //normal first phase of 250 coins
     }
     else if(nHeight<fourthreward)
     {
-        sub=reward*4; //end primary mining with a bang round of 40 coins
+        sub=reward*100; //end primary mining with a bang round of 1000 coins
     }
     else if(nHeight<finalreward)
     {
-        sub=reward/10; //final phase is 1 coin reward
+        sub=reward; //final phase is 10 coin reward
     }
     else
     {
         sub=0; //no coins
     }
-    if(withfees)
-    {
-        return sub+nFees;
-    }else{
-        return sub;
-    }
+
+    return sub+nFees;
 
 }
 
@@ -1326,11 +1319,11 @@ unsigned int GetNextWorkRequired(const CBlockIndex* pindexLast, const CBlock *pb
        if the block containing your spend was mined, it would replace your weaker block. So, this makes 1 confirmation transactions significantly safer.
     */
     int64_t adjust=0;
-    if(pindexLast->nHeight > 40353) //don't activate til rewards drop
+    if(pindexLast->nHeight > (HOUR*DAY*7)) //don't activate til rewards drop
     {
         const static int64_t stepcount=12;
         //min fees: 0.1, 0.2, etc etc corresponding to 1% increase, 2% increase etc
-        const static int64_t steps[stepcount]={10*COIN,20*COIN,30*COIN,40*COIN,50*COIN,60*COIN,70*COIN,80*COIN,90*COIN,100*COIN,110*COIN,210*COIN};
+        const static int64_t steps[stepcount]={100*COIN,200*COIN,300*COIN,400*COIN,500*COIN,600*COIN,700*COIN,800*COIN,900*COIN,1000*COIN,1100*COIN,2100*COIN};
         //difficulty increase in milliseconds. Corresponds to 0.5% increase, 1%, 2%, etc
         const static int64_t adjusts[stepcount]={300,600,1200,1800,2400,3000,3600,4200,4800,5400,6000,12000};
         int64_t sum=0;
@@ -1407,7 +1400,7 @@ bool IsInitialBlockDownload()
         nLastUpdate = GetTime();
     }
     return (GetTime() - nLastUpdate < 10 &&
-            chainActive.Tip()->GetBlockTime() < GetTime() - 24 * 60 * 60);
+            chainActive.Tip()->GetBlockTime() < GetTime() - DAY_SEC);
 }
 
 bool fLargeWorkForkFound = false;
@@ -2396,7 +2389,7 @@ bool CheckBlock(const CBlock& block, CValidationState& state, bool fCheckPOW, bo
                          REJECT_INVALID, "high-hash");
 
     // Check timestamp
-    if (block.GetBlockTime() > GetAdjustedTime() + 2 * 60 * 60)
+    if (block.GetBlockTime() > GetAdjustedTime() + 2 * MINUTE * HOUR)
         return state.Invalid(error("CheckBlock() : block timestamp too far in the future"),
                              REJECT_INVALID, "time-too-new");
 
@@ -3613,13 +3606,13 @@ bool static ProcessMessage(CNode* pfrom, string strCommand, CDataStream& vRecv)
         // Store the new addresses
         vector<CAddress> vAddrOk;
         int64_t nNow = GetAdjustedTime();
-        int64_t nSince = nNow - 10 * 60;
+        int64_t nSince = nNow - 10 * MINUTE;
         BOOST_FOREACH(CAddress& addr, vAddr)
         {
             boost::this_thread::interruption_point();
 
-            if (addr.nTime <= 100000000 || addr.nTime > nNow + 10 * 60)
-                addr.nTime = nNow - 5 * 24 * 60 * 60;
+            if (addr.nTime <= 100000000 || addr.nTime > nNow + 10 * MINUTE)
+                addr.nTime = nNow - 5 * DAY_SEC;
             pfrom->AddAddressKnown(addr);
             bool fReachable = IsReachable(addr);
             if (addr.nTime > nSince && !pfrom->fGetAddr && vAddr.size() <= 10 && addr.IsRoutable())
@@ -3633,7 +3626,7 @@ bool static ProcessMessage(CNode* pfrom, string strCommand, CDataStream& vRecv)
                     if (hashSalt == 0)
                         hashSalt = GetRandHash();
                     uint64_t hashAddr = addr.GetHash();
-                    uint256 hashRand = hashSalt ^ (hashAddr<<32) ^ ((GetTime()+hashAddr)/(24*60*60));
+                    uint256 hashRand = hashSalt ^ (hashAddr<<32) ^ ((GetTime()+hashAddr)/DAY_SEC);
                     hashRand = Hash(BEGIN(hashRand), END(hashRand));
                     multimap<uint256, CNode*> mapMix;
                     BOOST_FOREACH(CNode* pnode, vNodes)
@@ -3655,7 +3648,7 @@ bool static ProcessMessage(CNode* pfrom, string strCommand, CDataStream& vRecv)
             if (fReachable)
                 vAddrOk.push_back(addr);
         }
-        addrman.Add(vAddrOk, pfrom->addr, 2 * 60 * 60);
+        addrman.Add(vAddrOk, pfrom->addr, 2 * MINUTE * HOUR);
         if (vAddr.size() < 1000)
             pfrom->fGetAddr = false;
         if (pfrom->fOneShot)
@@ -4294,7 +4287,7 @@ bool SendMessages(CNode* pto, bool fSendTrickle)
             // RPC ping request by user
             pingSend = true;
         }
-        if (pto->nLastSend && GetTime() - pto->nLastSend > 30 * 60 && pto->vSendMsg.empty()) {
+        if (pto->nLastSend && GetTime() - pto->nLastSend > 30 * MINUTE && pto->vSendMsg.empty()) {
             // Ping automatically sent as a keepalive
             pingSend = true;
         }
@@ -4318,7 +4311,7 @@ bool SendMessages(CNode* pto, bool fSendTrickle)
 
         // Address refresh broadcast
         static int64_t nLastRebroadcast;
-        if (!IsInitialBlockDownload() && (GetTime() - nLastRebroadcast > 24 * 60 * 60))
+        if (!IsInitialBlockDownload() && (GetTime() - nLastRebroadcast > DAY_SEC))
         {
             {
                 LOCK(cs_vNodes);
