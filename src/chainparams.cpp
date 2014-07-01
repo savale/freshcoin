@@ -250,11 +250,11 @@ public:
         strDataDir = "testnet";
 
         // Modify the testnet genesis block so the timestamp is valid for a later start so that they don't match
-        genesis.nBits    = bnProofOfWorkLimit.GetCompact();;
+        genesis.nBits    = 0x1e0fffff; //bnProofOfWorkLimit.GetCompact();;
         genesis.nTime = 1404239189;
-        genesis.nNonce = 0;
+        genesis.nNonce = 2593757;
         hashGenesisBlock = genesis.GetHash();
-        if (true)
+        if (false)
         {
             printf("Searching for genesis block...\n");
             // This will figure out a valid hash and Nonce if you're
@@ -289,12 +289,13 @@ public:
             exit(1);
         }
         /*
-genesis.nTime = 1402197254 
-genesis.nNonce = 2239126 
+genesis.nTime = 1404239189
+genesis.nNonce = 2593757
+min nBit: 1e0fffff
 genesis.hashMerkleRoot = e85e61ae6240a486898d36427284d1bfeb04d56edb137288b9e3614bc437c3b0
-genesis.GetHash = 00000202f5e6dfd3764cad1bc6011484d8c3f1df023ece2e6e88b31c87f88d00
+genesis.GetHash = 00000e65a080953ecd9e100766728f8033e8c1b14948537587167f435370ff45
         */
-        assert(hashGenesisBlock==uint256("0x00000202f5e6dfd3764cad1bc6011484d8c3f1df023ece2e6e88b31c87f88d00"));
+        assert(hashGenesisBlock==uint256("0x00000e65a080953ecd9e100766728f8033e8c1b14948537587167f435370ff45"));
         assert(genesis.hashMerkleRoot == uint256("0xe85e61ae6240a486898d36427284d1bfeb04d56edb137288b9e3614bc437c3b0"));
 
         vFixedSeeds.clear();
