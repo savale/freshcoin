@@ -20,8 +20,8 @@ Build-Depends: debhelper,
  libqrencode-dev
 Standards-Version: 3.9.2
 Homepage: http://www.freshcoin.com/
-Vcs-Git: git://github.com/freshcoin/frshtalcoin.git
-Vcs-Browser: http://github.com/freshcoin/frshtalcoin
+Vcs-Git: git://github.com/freshcoin/freshcoin.git
+Vcs-Browser: http://github.com/freshcoin/freshcoin
 
 Package: freshcoind
 Architecture: any

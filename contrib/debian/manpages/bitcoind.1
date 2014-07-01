@@ -183,7 +183,7 @@ Returns a list of the last ['count'] transactions for 'account' \- for all accou
 Moves funds between accounts.
 .TP
 \fBsendfrom* <'account'> <'freshcoinaddress'> <'amount'> ['minconf=1'] ['comment'] ['comment-to']\fR
-Sends amount from account's balance to 'freshcoinaddress'. This method will fail if there is less than amount frshtalcoins with ['minconf'] confirmations in the account's balance (unless account is the empty-string-named default account; it behaves like the *sendtoaddress* method). Returns transaction ID on success.
+Sends amount from account's balance to 'freshcoinaddress'. This method will fail if there is less than amount freshcoins with ['minconf'] confirmations in the account's balance (unless account is the empty-string-named default account; it behaves like the *sendtoaddress* method). Returns transaction ID on success.
 .TP     
 \fBsendtoaddress 'freshcoinaddress' 'amount' ['comment'] ['comment-to']\fR
 Sends amount from the server's available balance to 'freshcoinaddress'. amount is a real and is rounded to the nearest 0.01. Returns transaction id on success.
@@ -192,7 +192,7 @@ Sends amount from the server's available balance to 'freshcoinaddress'. amount i
 Stops the freshcoin server.
 .TP    
 \fBvalidateaddress 'freshcoinaddress'\fR
-Checks that 'freshcoinaddress' looks like a proper frshtalcoin address. Returns an object containing:
+Checks that 'freshcoinaddress' looks like a proper freshcoin address. Returns an object containing:
 
     "isvalid" : true or false.
     "ismine"  : true if the address is in the server's wallet.

@@ -590,7 +590,7 @@ Acest produs include programe dezvoltate de către OpenSSL Project pentru a fi f
     <message numerus="yes">
         <location line="+142"/>
         <source>%n active connection(s) to Freshcoin network</source>
-        <translation><numerusform>%n conexiune activă către rețeaua Freshcoin</numerusform><numerusform>%n conexiuni active către rețeaua Freshcoin</numerusform><numerusform>%n de conexiuni active către rețeaua Frshtalcoin</numerusform></translation>
+        <translation><numerusform>%n conexiune activă către rețeaua Freshcoin</numerusform><numerusform>%n conexiuni active către rețeaua Freshcoin</numerusform><numerusform>%n de conexiuni active către rețeaua Freshcoin</numerusform></translation>
     </message>
     <message>
         <location line="+22"/>

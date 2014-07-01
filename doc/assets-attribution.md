@@ -97,8 +97,8 @@ Jonas Schnelli
 * License: MIT
 
 ### Assets Used
-	src/qt/res/icons/freshcoin.icns, src/qt/res/src/frshtalcoin.svg,
-	src/qt/res/src/freshcoin.ico, src/qt/res/src/frshtalcoin.png,
-	src/qt/res/src/freshcoin_testnet.png, docs/frshtalcoin_logo_doxygen.png,
+	src/qt/res/icons/freshcoin.icns, src/qt/res/src/freshcoin.svg,
+	src/qt/res/src/freshcoin.ico, src/qt/res/src/freshcoin.png,
+	src/qt/res/src/freshcoin_testnet.png, docs/freshcoin_logo_doxygen.png,
 	src/qt/res/icons/toolbar.png, src/qt/res/icons/toolbar_testnet.png,
 	src/qt/res/images/splash.png, src/qt/res/images/splash_testnet.png

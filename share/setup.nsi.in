@@ -108,8 +108,8 @@ Section -post SEC0001
     WriteRegDWORD HKCU "SOFTWARE\Microsoft\Windows\CurrentVersion\Uninstall\$(^Name)" NoRepair 1
     WriteRegStr HKCR "freshcoin" "URL Protocol" ""
     WriteRegStr HKCR "freshcoin" "" "URL:Freshcoin"
-    WriteRegStr HKCR "freshcoin\DefaultIcon" "" $INSTDIR\frshtalcoin-qt.exe
-    WriteRegStr HKCR "freshcoin\shell\open\command" "" '"$INSTDIR\frshtalcoin-qt.exe" "%1"'
+    WriteRegStr HKCR "freshcoin\DefaultIcon" "" $INSTDIR\freshcoin-qt.exe
+    WriteRegStr HKCR "freshcoin\shell\open\command" "" '"$INSTDIR\freshcoin-qt.exe" "%1"'
 SectionEnd
 
 # Macro for selecting uninstaller sections

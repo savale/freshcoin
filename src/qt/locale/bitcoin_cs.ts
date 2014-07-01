@@ -584,7 +584,7 @@ Tento produkt zahrnuje programy vyvinuté OpenSSL Projektem pro použití v Open
     <message numerus="yes">
         <location line="+142"/>
         <source>%n active connection(s) to Freshcoin network</source>
-        <translation><numerusform>%n aktivní spojení do Freshcoinové sítě</numerusform><numerusform>%n aktivní spojení do Freshcoinové sítě</numerusform><numerusform>%n aktivních spojení do Frshtalcoinové sítě</numerusform></translation>
+        <translation><numerusform>%n aktivní spojení do Freshcoinové sítě</numerusform><numerusform>%n aktivní spojení do Freshcoinové sítě</numerusform><numerusform>%n aktivních spojení do Freshcoinové sítě</numerusform></translation>
     </message>
     <message>
         <location line="+22"/>

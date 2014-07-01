@@ -156,7 +156,7 @@ bool parseBitcoinURI(const QUrl &uri, SendCoinsRecipient *out)
 
 bool parseBitcoinURI(QString uri, SendCoinsRecipient *out)
 {
-    // Convert freshcoin:// to frshtalcoin:
+    // Convert freshcoin:// to freshcoin:
     //
     //    Cannot handle this later, because freshcoin:// will cause Qt to see the part after // as host,
     //    which will lower-case it (and thus invalidate the address).

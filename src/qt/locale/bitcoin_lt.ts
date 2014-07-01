@@ -583,7 +583,7 @@ Platinama pagal MIT/X11 licenciją, kurią rasite faile COPYING arba http://www.
     <message numerus="yes">
         <location line="+142"/>
         <source>%n active connection(s) to Freshcoin network</source>
-        <translation><numerusform>%n Freshcoin tinklo aktyvus ryšys</numerusform><numerusform>%n Freshcoin tinklo aktyvūs ryšiai</numerusform><numerusform>%n Frshtalcoin tinklo aktyvūs ryšiai</numerusform></translation>
+        <translation><numerusform>%n Freshcoin tinklo aktyvus ryšys</numerusform><numerusform>%n Freshcoin tinklo aktyvūs ryšiai</numerusform><numerusform>%n Freshcoin tinklo aktyvūs ryšiai</numerusform></translation>
     </message>
     <message>
         <location line="+22"/>

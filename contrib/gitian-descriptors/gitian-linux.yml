@@ -71,7 +71,7 @@ script: |
   make $MAKEOPTS
   make $MAKEOPTS install-strip
   cp $STATIC_BINDIR/freshcoind $BINDIR/freshcoin.static
-  cp $STATIC_BINDIR/freshcoin-cli $BINDIR/frshtalcoin-cli.static
+  cp $STATIC_BINDIR/freshcoin-cli $BINDIR/freshcoin-cli.static
   
   # sort distribution tar file and normalize user/group/mtime information for deterministic output
   mkdir -p $OUTDIR/src

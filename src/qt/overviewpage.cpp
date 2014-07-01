@@ -123,7 +123,7 @@ OverviewPage::OverviewPage(QWidget *parent) :
 
     // Customized branding image.
     boost::filesystem::path freshpath = GetDataDir(false);
-    freshpath /= "frshtalcoin.png";
+    freshpath /= "freshcoin.png";
     QPixmap shibecoin(freshpath.string().c_str());
 
     if ( !shibecoin.isNull() ) {

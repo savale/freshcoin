@@ -3361,7 +3361,7 @@ f.eks.: alertnotify=echo %%s | mail -s &quot;Freshcoin Alert&quot; admin@foo.com
     <message>
         <location line="+3"/>
         <source>Error: The transaction was rejected! This might happen if some of the coins in your wallet were already spent, such as if you used a copy of wallet.dat and coins were spent in the copy but not marked as spent here.</source>
-        <translation>Fejl: Transaktionen blev afvist. Dette kan ske, hvis nogle af dine freshcoins i din tegnebog allerede er brugt, som hvis du brugte en kopi af wallet.dat og dine frshtalcoins er blevet brugt i kopien, men ikke er markeret som brugt her.</translation>
+        <translation>Fejl: Transaktionen blev afvist. Dette kan ske, hvis nogle af dine freshcoins i din tegnebog allerede er brugt, som hvis du brugte en kopi af wallet.dat og dine freshcoins er blevet brugt i kopien, men ikke er markeret som brugt her.</translation>
     </message>
     <message>
         <location line="+4"/>

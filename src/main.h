@@ -301,7 +301,7 @@ inline bool AllowFree(double dPriority)
 {
     // Large (in bytes) low-priority (new, small-coin) transactions
     // need a fee.
-        return dPriority > 100 * COIN * 1440 / 250; // freshcoin: 1440 blocks found a day. Priority cutoff is 100 frshtalcoin day / 250 bytes.
+        return dPriority > 100 * COIN * 1440 / 250; // freshcoin: 1440 blocks found a day. Priority cutoff is 100 freshcoin day / 250 bytes.
     }
 
 /** Get the maturity depth for coinbase transactions at a given height.

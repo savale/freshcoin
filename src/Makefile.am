@@ -190,11 +190,11 @@ freshcoin_cli_LDADD = \
   libbitcoin_cli.a \
   libbitcoin_common.a \
   $(BOOST_LIBS)
-freshcoin_cli_SOURCES = frshtalcoin-cli.cpp
+freshcoin_cli_SOURCES = freshcoin-cli.cpp
 #
 
 if TARGET_WINDOWS
-freshcoin_cli_SOURCES += frshtalcoin-cli-res.rc
+freshcoin_cli_SOURCES += freshcoin-cli-res.rc
 endif
 
 # NOTE: This dependency is not strictly necessary, but without it make may try to build both in parallel, which breaks the LevelDB build system in a race

@@ -8,7 +8,7 @@ Freshcoin 1.7
 
 Setup
 ---------------------
-[Freshcoin Core](http://freshcoin.com/en/download) is the original Freshcoin client and it builds the backbone of the network. However, it downloads and stores the entire history of Frshtalcoin transactions (which is currently several GBs); depending on the speed of your computer and network connection, the synchronization process can take anywhere from a few hours to a day or more. Thankfully you only have to do this once.
+[Freshcoin Core](http://freshcoin.com/en/download) is the original Freshcoin client and it builds the backbone of the network. However, it downloads and stores the entire history of Freshcoin transactions (which is currently several GBs); depending on the speed of your computer and network connection, the synchronization process can take anywhere from a few hours to a day or more. Thankfully you only have to do this once.
 
 Running
 ---------------------
@@ -39,8 +39,8 @@ Drag Freshcoin-Qt to your applications folder, and then run Freshcoin-Qt.
 
 * See the documentation at the [Freshcoin Wiki](http://freshco.in/)
 for help and more information.
-* Ask for help on [#freshcoin](http://webchat.freenode.net?channels=frshtalcoin) on Freenode. If you don't have an IRC client use [webchat here](http://webchat.freenode.net?channels=freshcoin).
-* Ask for help on the [/r/freshducation subreddit](http://reddit.com/r/frshtalducation).
+* Ask for help on [#freshcoin](http://webchat.freenode.net?channels=freshcoin) on Freenode. If you don't have an IRC client use [webchat here](http://webchat.freenode.net?channels=freshcoin).
+* Ask for help on the [/r/freshducation subreddit](http://reddit.com/r/freshducation).
 
 Building
 ---------------------
@@ -52,7 +52,7 @@ The following are developer notes on how to build Freshcoin on your native platf
 
 Development
 ---------------------
-The Freshcoin repo's [root README](https://github.com/freshcoin/frshtalcoin/blob/master/README.md) contains relevant information on the development process and automated testing.
+The Freshcoin repo's [root README](https://github.com/freshcoin/freshcoin/blob/master/README.md) contains relevant information on the development process and automated testing.
 
 - [Coding Guidelines](coding.md)
 - [Multiwallet Qt Development](multiwallet-qt.md)
@@ -64,7 +64,7 @@ The Freshcoin repo's [root README](https://github.com/freshcoin/frshtalcoin/blob
 
 ### Resources
 * Discuss on the [/r/freshcoindev](http://www.reddit.com/r/freshcoindev) subreddit.
-* Discuss on [#freshcoin-dev](http://webchat.freenode.net/?channels=frshtalcoin-dev) on Freenode. If you don't have an IRC client use [webchat here](http://webchat.freenode.net/?channels=freshcoin-dev).
+* Discuss on [#freshcoin-dev](http://webchat.freenode.net/?channels=freshcoin-dev) on Freenode. If you don't have an IRC client use [webchat here](http://webchat.freenode.net/?channels=freshcoin-dev).
 
 ### Miscellaneous
 - [Assets Attribution](assets-attribution.md)

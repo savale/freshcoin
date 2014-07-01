@@ -579,7 +579,7 @@ This product includes software developed by the OpenSSL Project for use in the O
     <message numerus="yes">
         <location line="+142"/>
         <source>%n active connection(s) to Freshcoin network</source>
-        <translation><numerusform>%n активна веза са Freshcoin мрежом</numerusform><numerusform>%n активне везе са Freshcoin мрежом</numerusform><numerusform>%n активних веза са Frshtalcoin мрежом</numerusform></translation>
+        <translation><numerusform>%n активна веза са Freshcoin мрежом</numerusform><numerusform>%n активне везе са Freshcoin мрежом</numerusform><numerusform>%n активних веза са Freshcoin мрежом</numerusform></translation>
     </message>
     <message>
         <location line="+22"/>

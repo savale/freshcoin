@@ -63,7 +63,7 @@ bool AppInit(int argc, char* argv[])
         //
         // Parameters
         //
-        // If Qt is used, parameters/freshcoin.conf are parsed in qt/frshtalcoin.cpp's main()
+        // If Qt is used, parameters/freshcoin.conf are parsed in qt/freshcoin.cpp's main()
         ParseParameters(argc, argv);
         if (!boost::filesystem::is_directory(GetDataDir(false)))
         {

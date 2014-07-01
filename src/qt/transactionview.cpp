@@ -131,7 +131,7 @@ TransactionView::TransactionView(QWidget *parent) :
     QAction *copyTxIDAction = new QAction(tr("Copy transaction ID"), this);
     QAction *editLabelAction = new QAction(tr("Edit label"), this);
     QAction *showDetailsAction = new QAction(tr("Show transaction details"), this);
-    QAction *viewOnFreshchain = new QAction(tr("Show transaction on Frshtalchain"), this);
+    QAction *viewOnFreshchain = new QAction(tr("Show transaction on Freshchain"), this);
 
     contextMenu = new QMenu();
     contextMenu->addAction(copyAddressAction);
@@ -159,7 +159,7 @@ TransactionView::TransactionView(QWidget *parent) :
     connect(copyTxIDAction, SIGNAL(triggered()), this, SLOT(copyTxID()));
     connect(editLabelAction, SIGNAL(triggered()), this, SLOT(editLabel()));
     connect(showDetailsAction, SIGNAL(triggered()), this, SLOT(showDetails()));
-    connect(viewOnFreshchain, SIGNAL(triggered()), this, SLOT(viewOnFrshtalchain()));
+    connect(viewOnFreshchain, SIGNAL(triggered()), this, SLOT(viewOnFreshchain()));
 }
 
 void TransactionView::setModel(WalletModel *model)

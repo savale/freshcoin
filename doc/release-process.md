@@ -66,13 +66,13 @@ Release Process
 
  Build freshcoind and freshcoin-qt on Linux32, Linux64, and Win32:
   
-	./bin/gbuild --commit freshcoin=v${VERSION} ../frshtalcoin/contrib/gitian-descriptors/gitian-linux.yml
+	./bin/gbuild --commit freshcoin=v${VERSION} ../freshcoin/contrib/gitian-descriptors/gitian-linux.yml
 	./bin/gsign --signer $SIGNER --release ${VERSION} --destination ../gitian.sigs/ ../freshcoin/contrib/gitian-descriptors/gitian-linux.yml
 	pushd build/out
 	zip -r freshcoin-${VERSION}-linux-gitian.zip *
 	mv freshcoin-${VERSION}-linux-gitian.zip ../../../
 	popd
-	./bin/gbuild --commit freshcoin=v${VERSION} ../frshtalcoin/contrib/gitian-descriptors/gitian-win.yml
+	./bin/gbuild --commit freshcoin=v${VERSION} ../freshcoin/contrib/gitian-descriptors/gitian-win.yml
 	./bin/gsign --signer $SIGNER --release ${VERSION}-win --destination ../gitian.sigs/ ../freshcoin/contrib/gitian-descriptors/gitian-win.yml
 	pushd build/out
 	zip -r freshcoin-${VERSION}-win-gitian.zip *
@@ -90,15 +90,15 @@ repackage gitian builds for release as stand-alone zip/tar/installer exe
 
 **Linux .tar.gz:**
 
-	unzip freshcoin-${VERSION}-linux-gitian.zip -d frshtalcoin-${VERSION}-linux
-	tar czvf freshcoin-${VERSION}-linux.tar.gz frshtalcoin-${VERSION}-linux
+	unzip freshcoin-${VERSION}-linux-gitian.zip -d freshcoin-${VERSION}-linux
+	tar czvf freshcoin-${VERSION}-linux.tar.gz freshcoin-${VERSION}-linux
 	rm -rf freshcoin-${VERSION}-linux
 
 **Windows .zip and setup.exe:**
 
-	unzip freshcoin-${VERSION}-win-gitian.zip -d frshtalcoin-${VERSION}-win
-	mv freshcoin-${VERSION}-win/frshtalcoin-*-setup.exe .
-	zip -r freshcoin-${VERSION}-win.zip frshtalcoin-${VERSION}-win
+	unzip freshcoin-${VERSION}-win-gitian.zip -d freshcoin-${VERSION}-win
+	mv freshcoin-${VERSION}-win/freshcoin-*-setup.exe .
+	zip -r freshcoin-${VERSION}-win.zip freshcoin-${VERSION}-win
 	rm -rf freshcoin-${VERSION}-win
 
 **Perform Mac build:**
@@ -183,6 +183,6 @@ From a directory containing freshcoin source, gitian.sigs and gitian zips
 
   - Announce on reddit /r/freshcoin, /r/freshcoindev
 
-  - Release sticky on discuss freshcoin: https://discuss.frshtalcoin.com/categories/announcements
+  - Release sticky on discuss freshcoin: https://discuss.freshcoin.com/categories/announcements
 
 - Celebrate 

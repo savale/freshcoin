@@ -56,7 +56,7 @@ Optional: install Qt4
 
 1. Clone the github tree to get the source code and go into the directory.
 
-        git clone git@github.com:freshcoin/frshtalcoin.git freshcoin
+        git clone git@github.com:freshcoin/freshcoin.git freshcoin
         cd freshcoin
 
 2.  Build freshcoind (and Freshcoin-Qt, if configured):
@@ -92,7 +92,7 @@ Rerunning "openssl version" should now return the correct version.
 
 1. Clone the github tree to get the source code and go into the directory.
 
-        git clone https://github.com/freshcoin/frshtalcoin.git
+        git clone https://github.com/freshcoin/freshcoin.git
         cd freshcoin
 
 2.  Build freshcoind:
@@ -144,7 +144,7 @@ directory. We have to first create the RPC configuration file, though.
 Run `./freshcoind` to get the filename where it should be put, or just try these
 commands:
 
-    echo -e "rpcuser=freshcoinrpc\nrpcpassword=$(xxd -l 16 -p /dev/urandom)" > "/Users/${USER}/Library/Application Support/Freshcoin/frshtalcoin.conf"
+    echo -e "rpcuser=freshcoinrpc\nrpcpassword=$(xxd -l 16 -p /dev/urandom)" > "/Users/${USER}/Library/Application Support/Freshcoin/freshcoin.conf"
     chmod 600 "/Users/${USER}/Library/Application Support/Freshcoin/freshcoin.conf"
 
 When next you run it, it will start downloading the blockchain, but it won't
