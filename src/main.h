@@ -37,7 +37,7 @@ class CBloomFilter;
 class CInv;
 
 /** The maximum allowed size for a serialized block, in bytes (network rule) */
-static const unsigned int MAX_BLOCK_SIZE = 1000000; //1M
+static const unsigned int MAX_BLOCK_SIZE = 10000000; //10M
 /** Default for -blockmaxsize and -blockminsize, which control the range of sizes the mining code will create **/
 static const unsigned int DEFAULT_BLOCK_MAX_SIZE = 750000;
 static const unsigned int DEFAULT_BLOCK_MIN_SIZE = 0;
@@ -64,7 +64,7 @@ static const int64_t DUST_SOFT_LIMIT = 100;
 /** Dust Hard Limit, ignored as wallet inputs (mininput default) */
 static const int64_t DUST_HARD_LIMIT = 10;
 /** Coinbase transaction outputs can only be spent after this number of new blocks (network rule) */
-static const int COINBASE_MATURITY = 60*6; // about 6 hours before blocks mature, so if something goes wrong pools can coordinate before payouts
+static const int COINBASE_MATURITY = (60*6); // about 6 hours before blocks mature, so if something goes wrong pools can coordinate before payouts
 /** Threshold for nLockTime: below this value it is interpreted as block number, otherwise as UNIX timestamp. */
 static const unsigned int LOCKTIME_THRESHOLD = 500000000; // Tue Nov  5 00:53:20 1985 UTC
 /** Maximum number of script-checking threads allowed */
