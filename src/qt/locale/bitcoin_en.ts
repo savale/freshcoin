@@ -3313,8 +3313,8 @@ Address: %4
     </message>
     <message>
         <location line="-26"/>
-        <source>Listen for connections on &lt;port&gt; (default: 33112 or testnet: 44112)</source>
-        <translation>Listen for connections on &lt;port&gt; (default: 33112 or testnet: 44112)</translation>
+        <source>Listen for connections on &lt;port&gt; (default: 22112 or testnet: 11112)</source>
+        <translation>Listen for connections on &lt;port&gt; (default: 11112 or testnet: 11112)</translation>
     </message>
     <message>
         <location line="+5"/>
@@ -3523,7 +3523,7 @@ for example: alertnotify=echo %%s | mail -s &quot;Freshcoin Alert&quot; admin@fo
     </message>
     <message>
         <location line="+1"/>
-        <source>Connect to JSON-RPC on &lt;port&gt; (default: 33111 or testnet: 44111)</source>
+        <source>Connect to JSON-RPC on &lt;port&gt; (default: 22111 or testnet: 11111)</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
