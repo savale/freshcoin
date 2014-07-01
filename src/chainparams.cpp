@@ -182,8 +182,8 @@ genesis.GetHash = 000005dae8a9d40d07306a6845236c0df7a1402200cdd274a8af02e02f5e03
         assert(genesis.hashMerkleRoot == uint256("0xe85e61ae6240a486898d36427284d1bfeb04d56edb137288b9e3614bc437c3b0"));
         assert(hashGenesisBlock == uint256("0x000005dae8a9d40d07306a6845236c0df7a1402200cdd274a8af02e02f5e0378"));
 
-//        vSeeds.push_back(CDNSSeedData("seed1.freshcoin.net", "seed1.freshcoin.net"));
-//        vSeeds.push_back(CDNSSeedData("seed2.freshcoin.net", "seed2.freshcoin.net"));
+        vSeeds.push_back(CDNSSeedData("fresh.strangled.net", "fresh.strangled.net"));
+        vSeeds.push_back(CDNSSeedData("fresh2.strangled.net", "fresh2.strangled.net"));
 
 
         // Workaround for Boost not being quite compatible with C++11;
@@ -300,8 +300,8 @@ genesis.GetHash = 00000e65a080953ecd9e100766728f8033e8c1b14948537587167f435370ff
 
         vFixedSeeds.clear();
         vSeeds.clear();
-    //    vSeeds.push_back(CDNSSeedData("testnet.freshcoin.net", "testnet.freshcoin.net"));
-    //    vSeeds.push_back(CDNSSeedData("earlz.net", "earlz.net"));
+        vSeeds.push_back(CDNSSeedData("fresh.strangled.net", "fresh.strangled.net"));
+        vSeeds.push_back(CDNSSeedData("fresh2.strangled.net", "fresh2.strangled.net"));
  
 
         // Boost sucks, and should not be used. Workaround for Boost not being compatible with C++11;
