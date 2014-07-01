@@ -41,9 +41,9 @@ QString BitcoinUnits::name(int unit)
 {
     switch(unit)
     {
-    case MFRSH: return QString("MFRAC");
-    case kFRSH: return QString("kFRAC");
-    case FRSH: return QString("FRAC");
+    case MFRSH: return QString("MFRSH");
+    case kFRSH: return QString("kFRSH");
+    case FRSH: return QString("FRSH");
     case Frshtoid: return QString("Fractoid");
     default: return QString("???");
     }
@@ -53,8 +53,8 @@ QString BitcoinUnits::description(int unit)
 {
     switch(unit)
     {
-    case MFRSH: return QString("Mega-Freshcoin (1,000,000 FRAC)");
-    case kFRSH: return QString("Kilo-Freshcoin (1000 FRAC)");
+    case MFRSH: return QString("Mega-Freshcoin (1,000,000 FRSH)");
+    case kFRSH: return QString("Kilo-Freshcoin (1000 FRSH)");
     case FRSH: return QString("Freshcoin");
     case Frshtoid: return QString("Fractoid (1 / 100,000,000");
     default: return QString("???");

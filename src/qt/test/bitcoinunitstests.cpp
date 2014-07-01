@@ -102,9 +102,9 @@ void BitcoinUnitsTests::formatTests()
     QCOMPARE(BitcoinUnits::format(BitcoinUnits::Frshtoid, 100000000, false, true, locale1), QString("100,000,000.0"));
     QCOMPARE(BitcoinUnits::format(BitcoinUnits::Frshtoid, 100000000, true, true, locale1), QString("+100,000,000.0"));
 
-    QCOMPARE(BitcoinUnits::formatWithUnit(BitcoinUnits::FRSH, 100000000000000LL, false, true, locale1), QString("1,000,000.00 FRAC"));
-    QCOMPARE(BitcoinUnits::formatWithUnit(BitcoinUnits::kFRSH, 100000000000000LL, false, true, locale1), QString("1,000.00 kFRAC"));
-    QCOMPARE(BitcoinUnits::formatWithUnit(BitcoinUnits::MFRSH, 100000000000000LL, false, true, locale1), QString("1.00 MFRAC"));
+    QCOMPARE(BitcoinUnits::formatWithUnit(BitcoinUnits::FRSH, 100000000000000LL, false, true, locale1), QString("1,000,000.00 FRSH"));
+    QCOMPARE(BitcoinUnits::formatWithUnit(BitcoinUnits::kFRSH, 100000000000000LL, false, true, locale1), QString("1,000.00 kFRSH"));
+    QCOMPARE(BitcoinUnits::formatWithUnit(BitcoinUnits::MFRSH, 100000000000000LL, false, true, locale1), QString("1.00 MFRSH"));
 
     /// Tests with nl_NL locale
     QLocale locale2("nl_NL");
