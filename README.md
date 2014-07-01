@@ -1,7 +1,7 @@
 # Freshcoin Core [FRSH]
 ==========================
 
-![Freshcoin](http://i.imgur.com/LCv2wcn.png)
+![Freshcoin](http://www.freshcoin.net/wp-content/uploads/2014/06/freshcoinLogo-300x300.png)
 
 ## What is Freshcoin?
 Freshcoin is a cryptocurrency like Bitcoin, although with many key differences. Freshcoin's wallet is forked from Bitcoin 0.9.2, and thus has a build process slightly different from most altcoins.
@@ -10,18 +10,19 @@ Freshcoin is a cryptocurrency like Bitcoin, although with many key differences. 
 
 The key features of Freshcoin:
 
-* X11 Proof of work (low power, cool hardware, ASIC resistant, etc)
+* New FRESH algorithm (low power (15% less compared to x11/x13/x15), cool hardware, ASIC resistant)
 * One minute block times
-* Digishield is used initially for difficulty adjustment. After block 40352, Slingshield is used for difficulty adjustment
-* 90% of coins are minted in the first 28 days of mining (hence, very slow inflation rate after 28 days)
-* 1 Million coins total
-* After 28 days, mandatory transaction fees of 0.1-0.5%, to ensure mining remains profitable without coin supply inflation
+* Fast transactions
+* Digishield is used initially for difficulty adjustment. After block 43233, Slingshield is used for difficulty adjustment
+* 60% of coins are minted in the first 7 days of mining (hence, very slow inflation rate after 7 days)
+* 10 Million coins total
+* After 7 days, mandatory transaction fees of 0.1-0.5%, to ensure mining remains profitable without coin supply inflation
 * Checkpoint enabled
 * Geographically diverse DNS seed nodes, to ensure fast wallet syncs
 * Small 0.5% premine
 
 
-http://freshco.in/
+http://www.freshcoin.net/
 
 ## License
 Freshcoin is released under the terms of the MIT license. See [COPYING](COPYING)
@@ -33,18 +34,16 @@ Development is ongoing and the development team as well as other volunteers can 
 
 ## Reward Schedule
 
-The reward schedule is very fast and vigorous, in order to get the high rate of inflation out of the way as soon as possible.
+The reward schedule is very fast and vigurous, in order to get the high rate of inflation out of the way as soon as possible.
 
-* 1st block:  5000 FRSH, premined for support and development
+* 1st block:  50000 FRSH, premined for support and development
 * 2-31: 0 FRSH, zero reward blocks to allow for a fair launch with no instamining while difficulty catches up to network
-* 32-1471 (1 day): 40 FRSH, to spur excitement for the first day of mining
-* 1472-20191 (13 days): 20 FRSH
-* 20192-22500(~2 days): 10 FRSH
-* 22501-22860(6 hours): 20 FRSH bonus round for forking
-* 22861-38912(~11 days): 10 FRSH
-* 38913-40352(1 day): 40 FRSH, to give people that missed out on the first day of mining a final chance to get big blocks
-* 40353-318230(about 221 days): 1 FRSH (percentage based transaction fees should make it so that average reward is closer to 5-15 coins)
-* 318231 and up: 0 FRSH (again, percentage fees mean that significant rewards will still be seen)
+* 32-1471 (1 day): 1000 FRSH, to spur excitement for the first day of mining
+* 1472-4320 (2 days): 500 FRSH
+* 4321-8640 (3 days): 250 FRSH
+* 8641-10080(1 day): 1000 FRSH, to give people that missed out on the first day of mining a final chance to get big blocks
+* 10081-442080(about 300 days): 10 FRSH (percentage based transaction fees make it so that average reward is closer to 50-500 coins)
+* 442081 and up: 0 FRSH (again, percentage fees mean that significant rewards will still be seen)
 
 ## Slingshield
 
@@ -70,10 +69,10 @@ This helps to ensure Slingshield works as expected, ensures the network stays st
 
 ## Low inflation
 
-After 28 days, Freshcoin's inflation rate drops to around 16%/year, and somewhere in that year, the inflation rate actually drops to zero. Freshcoin's very fast schedule to zero inflation ensures that the price will stay stable, while percentage based transaction fees ensure that it will forever have a strong network.  
+After 30 days, Freshcoin's inflation rate drops to around 16%/year, and somewhere in that year, the inflation rate actually drops to zero. Freshcoin's very fast schedule to zero inflation ensures that the price will stay stable, while percentage based transaction fees ensure that it will forever have a strong network.  
 
 
-##  Building freshcoind/freshcoin-cli/frshtalcoin-qt
+##  Building freshcoind/freshcoin-cli/frshcoin-qt
 
   The following are developer notes on how to build Freshcoin on your native platform. They are not complete guides, but include notes on the necessary libraries, compile flags, etc.
 
@@ -83,5 +82,6 @@ After 28 days, Freshcoin's inflation rate drops to around 16%/year, and somewher
 
 ## Network ports
 
-* RPC 33111
-* P2P 33112
+* RPC 35111
+* P2P 35112
+
