@@ -59,16 +59,23 @@ genesis.GetHash = 000001e8998004237486cb455549a5414d43d3240d06c7c2b7a092440d2e90
         60*60*24*2+100      // * estimated number of transactions per day after checkpoint
     };
 
+
+        /*
+genesis.nTime = 1404239189
+genesis.nNonce = 2593757
+min nBit: 1e0fffff
+genesis.hashMerkleRoot = e85e61ae6240a486898d36427284d1bfeb04d56edb137288b9e3614bc437c3b0
+genesis.GetHash = 00000e65a080953ecd9e100766728f8033e8c1b14948537587167f435370ff45
+        */
     static MapCheckpoints mapCheckpointsTestnet =
         boost::assign::map_list_of
-        (     0, uint256("0x00000202f5e6dfd3764cad1bc6011484d8c3f1df023ece2e6e88b31c87f88d00"))
-        ( 1, uint256("0x00000851a71a48a95d7d3352f538a769bb2af298d021389933113e3376d756c2"))
+        (     0, uint256("0x00000e65a080953ecd9e100766728f8033e8c1b14948537587167f435370ff45"))
 
         ;
     static const CCheckpointData dataTestnet = {
         &mapCheckpointsTestnet,
-        1402198523,
-        37581,
+        1404239189,
+        0,
         300
     };
 
