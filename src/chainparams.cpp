@@ -111,8 +111,8 @@ public:
         pchMessageStart[3] = 0xc1;
         //owned and valid alert key
         vAlertPubKey = ParseHex("0451BBFA5B928095F41C9FF44DB2ECAD9257C550E720B46AE9AF06F3476D9967E5DBE9907972E6D85608C8A7B36D64BDFDA8900A2A5A67478FCBAB03A58D03A4AE");
-        nDefaultPort = 33112; //p2p port
-        nRPCPort = 33111;
+        nDefaultPort = 22112; //p2p port
+        nRPCPort = 22111;
         bnProofOfWorkLimit = CBigNum(~uint256(0) >> 20);
         nSubsidyHalvingInterval = 210000;
 
@@ -245,8 +245,8 @@ public:
         pchMessageStart[3] = 0xfc;
         //owned and valid alert key
         vAlertPubKey = ParseHex("0451BBFA5B928095F41C9FF44DB2ECAD9257C550E720B46AE9AF06F3476D9967E5DBE9907972E6D85608C8A7B36D64BDFDA8900A2A5A67478FCBAB03A58D03A4AE");
-        nDefaultPort = 44112;
-        nRPCPort = 44111;
+        nDefaultPort = 11112;
+        nRPCPort = 11111;
         strDataDir = "testnet";
 
         // Modify the testnet genesis block so the timestamp is valid for a later start so that they don't match
