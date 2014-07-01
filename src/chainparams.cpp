@@ -250,21 +250,25 @@ public:
         strDataDir = "testnet";
 
         // Modify the testnet genesis block so the timestamp is valid for a later start so that they don't match
-        genesis.nTime = 1402197254;
-        genesis.nNonce = 2239126;
+        genesis.nBits    = bnProofOfWorkLimit.GetCompact();;
+        genesis.nTime = 1404239189;
+        genesis.nNonce = 0;
         hashGenesisBlock = genesis.GetHash();
-        if (false)
+        if (true)
         {
-            printf("Searching for testnet genesis block...\n");
+            printf("Searching for genesis block...\n");
             // This will figure out a valid hash and Nonce if you're
             // creating a different genesis block:
             uint256 hashTarget = CBigNum().SetCompact(genesis.nBits).getuint256();
             uint256 thash;
+            
+            CBigNum bnTarget;
+            bnTarget.SetCompact(genesis.nBits);
 
             while(1)
             {
                 thash=genesis.GetHash();
-                if (thash <= hashTarget)
+                if ((thash <= hashTarget) && (thash <= bnTarget.getuint256()) )
                     break;
                 if ((genesis.nNonce & 0xFFF) == 0)
                 {
@@ -279,6 +283,7 @@ public:
             }
             printf("genesis.nTime = %u \n",genesis.nTime);
             printf("genesis.nNonce = %u \n",genesis.nNonce);
+            printf("min nBit: %08x\n", bnProofOfWorkLimit.GetCompact());
             printf("genesis.hashMerkleRoot = %s\n",genesis.hashMerkleRoot.ToString().c_str());
             printf("genesis.GetHash = %s\n",genesis.GetHash().ToString().c_str());
             exit(1);
@@ -294,24 +299,9 @@ genesis.GetHash = 00000202f5e6dfd3764cad1bc6011484d8c3f1df023ece2e6e88b31c87f88d
 
         vFixedSeeds.clear();
         vSeeds.clear();
-        vSeeds.push_back(CDNSSeedData("testnet.freshcoin.net", "testnet.frshtalcoin.net"));
-        vSeeds.push_back(CDNSSeedData("earlz.net", "earlz.net"));
-        vSeeds.push_back(CDNSSeedData("seed1.freshcoin.net", "seed1.frshtalcoin.net"));
-        vSeeds.push_back(CDNSSeedData("seed2.freshcoin.net", "seed2.frshtalcoin.net"));
-        vSeeds.push_back(CDNSSeedData("seed3.freshcoin.net", "seed3.frshtalcoin.net"));
-        vSeeds.push_back(CDNSSeedData("seed4.freshcoin.net", "seed4.frshtalcoin.net"));
-        vSeeds.push_back(CDNSSeedData("seed5.freshcoin.net", "seed5.frshtalcoin.net"));
-        vSeeds.push_back(CDNSSeedData("seed6.freshcoin.net", "seed6.frshtalcoin.net"));
-        vSeeds.push_back(CDNSSeedData("seed7.freshcoin.net", "seed7.frshtalcoin.net"));
-        vSeeds.push_back(CDNSSeedData("seed8.freshcoin.net", "seed8.frshtalcoin.net"));
-        vSeeds.push_back(CDNSSeedData("seed1.freshco.in", "seed1.frshtalco.in"));
-        vSeeds.push_back(CDNSSeedData("seed2.freshco.in", "seed2.frshtalco.in"));
-        vSeeds.push_back(CDNSSeedData("seed3.freshco.in", "seed3.frshtalco.in"));
-        vSeeds.push_back(CDNSSeedData("seed4.freshco.in", "seed4.frshtalco.in"));
-        vSeeds.push_back(CDNSSeedData("seed5.freshco.in", "seed5.frshtalco.in"));
-        vSeeds.push_back(CDNSSeedData("seed6.freshco.in", "seed6.frshtalco.in"));
-        vSeeds.push_back(CDNSSeedData("seed7.freshco.in", "seed7.frshtalco.in"));
-        vSeeds.push_back(CDNSSeedData("seed8.freshco.in", "seed8.frshtalco.in"));
+    //    vSeeds.push_back(CDNSSeedData("testnet.freshcoin.net", "testnet.frshtalcoin.net"));
+    //    vSeeds.push_back(CDNSSeedData("earlz.net", "earlz.net"));
+ 
 
         // Boost sucks, and should not be used. Workaround for Boost not being compatible with C++11;
         
