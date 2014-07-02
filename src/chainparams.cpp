@@ -131,13 +131,13 @@ public:
         genesis.hashPrevBlock = 0;
         genesis.hashMerkleRoot = genesis.BuildMerkleTree();
         genesis.nVersion = 1;
-        genesis.nBits    = bnProofOfWorkLimit.GetCompact();;
+        genesis.nBits    = 0x1e0fffff; //bnProofOfWorkLimit.GetCompact();;
         genesis.nTime = 1404286354;
-        genesis.nNonce = 0;
+        genesis.nNonce = 858450;
 
         hashGenesisBlock = genesis.GetHash();
 
-        if (true)
+        if (false)
         {
             printf("Searching for genesis block...\n");
             // This will figure out a valid hash and Nonce if you're
@@ -172,15 +172,15 @@ public:
             exit(1);
         }
         /*
-genesis.nTime = 1402197204
-genesis.nNonce = 333049
+genesis.nTime = 1404286354
+genesis.nNonce = 858450
 min nBit: 1e0fffff
 genesis.hashMerkleRoot = e85e61ae6240a486898d36427284d1bfeb04d56edb137288b9e3614bc437c3b0
-genesis.GetHash = 000005dae8a9d40d07306a6845236c0df7a1402200cdd274a8af02e02f5e0378
+genesis.GetHash = 00000e6c34045cd748a03843fb13f9e23842feb321c68492fc2e74ea9c4fc9ca
 */
 
         assert(genesis.hashMerkleRoot == uint256("0xe85e61ae6240a486898d36427284d1bfeb04d56edb137288b9e3614bc437c3b0"));
-        assert(hashGenesisBlock == uint256("0x000005dae8a9d40d07306a6845236c0df7a1402200cdd274a8af02e02f5e0378"));
+        assert(hashGenesisBlock == uint256("0x00000e6c34045cd748a03843fb13f9e23842feb321c68492fc2e74ea9c4fc9ca"));
 
         vSeeds.push_back(CDNSSeedData("fresh.strangled.net", "fresh.strangled.net"));
         vSeeds.push_back(CDNSSeedData("fresh2.strangled.net", "fresh2.strangled.net"));
