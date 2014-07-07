@@ -50,10 +50,11 @@ genesis.GetHash = 0000093be1e48936fb6a1faed607e63654d674ad6fefc65236a3e516b841bb
     static MapCheckpoints mapCheckpoints =
         boost::assign::map_list_of
         (     0, uint256("0x0000093be1e48936fb6a1faed607e63654d674ad6fefc65236a3e516b841bbb5"))
+        (     6, uint256("0x0000096a6e32a1750b8afc25f577e4623a782b6d344bea3dfb55a64c0a0f45ba"))
         ;
     static const CCheckpointData data = {
         &mapCheckpoints,
-        1404747778, // * UNIX timestamp of last checkpoint block
+        1404752518, // * UNIX timestamp of last checkpoint block
         0,    // * total number of transactions between genesis and last checkpoint
                     //   (the tx=... number in the SetBestChain debug.log lines)
         60*60*24*2+100      // * estimated number of transactions per day after checkpoint
