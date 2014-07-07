@@ -131,13 +131,13 @@ public:
         genesis.hashPrevBlock = 0;
         genesis.hashMerkleRoot = genesis.BuildMerkleTree();
         genesis.nVersion = 1;
-        genesis.nBits    = 0x1e0fffff; //bnProofOfWorkLimit.GetCompact();;
-        genesis.nTime = 1404286354;
-        genesis.nNonce = 858450;
+        genesis.nBits    = bnProofOfWorkLimit.GetCompact();;
+        genesis.nTime = 1404747778;
+        genesis.nNonce = 0;
 
         hashGenesisBlock = genesis.GetHash();
 
-        if (false)
+        if (true)
         {
             printf("Searching for genesis block...\n");
             // This will figure out a valid hash and Nonce if you're
