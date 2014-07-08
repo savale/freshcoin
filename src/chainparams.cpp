@@ -110,6 +110,7 @@ genesis.GetHash = 0000093be1e48936fb6a1faed607e63654d674ad6fefc65236a3e516b841bb
 
         vSeeds.push_back(CDNSSeedData("fresh.strangled.net", "fresh.strangled.net"));
         vSeeds.push_back(CDNSSeedData("fresh2.strangled.net", "fresh2.strangled.net"));
+        vSeeds.push_back(CDNSSeedData("fresh2.strangled.net", "fresh3.strangled.net"));
         vSeeds.push_back(CDNSSeedData("fresh.hardcoreminers.com", "fresh.hardcoreminers.com"));
         vSeeds.push_back(CDNSSeedData("fresh.suprnova.cc", "fresh.suprnova.cc"));
 
