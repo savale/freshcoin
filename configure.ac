@@ -416,6 +416,12 @@ dnl a working version is available, else fall back to sleep. sleep was removed
 dnl after 1.56.
 dnl If neither is available, abort.
 dnl If sleep_for is used, boost_chrono becomes a requirement.
+
+dnl The following tests need Boost's CPPFLAGS included, since they may add
+dnl include paths necessary for compilation.
+TEMP_CPPFLAGS="$CPPFLAGS"
+CPPFLAGS="$CPPFLAGS $BOOST_INCLUDES"
+
 if test x$ax_cv_boost_chrono = xyes; then
 dnl Allow passing extra needed dependency libraries for boost-chrono from static gitian build
 BOOST_CHRONO_LIB="$BOOST_CHRONO_LIB $BOOST_CHRONO_EXTRALIBS"
