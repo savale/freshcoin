@@ -66,9 +66,7 @@ int64_t CTransaction::nMinTxFee = 10000;  // Override with -mintxfee
 /** Fees smaller than this (in satoshi) are considered zero fee (for relaying and mining) */
 int64_t CTransaction::nMinRelayTxFee = 5000;
 
-static CMedianFilter<int> cPeerBlockCounts(8, 0); // Amount of blocks that other nodes claim to have
-
-static int64_t cCoinsSend = 0;
+static CMedianFilter<int> cPeerBlockCounts(8, 0); // Amount of blocks that other nodes claim to hav
 
 struct COrphanBlock {
     uint256 hashBlock;
@@ -729,8 +727,6 @@ int64_t GetMinSendFee(const int64_t nValue)
     if(t > PercentageFeeRelayBegin || (t > PercentageFeeSendingBegin))
     {
         nMinFee = nValue / 100; // 1% send fee
-        cCoinsSend = nValue;
-        LogPrintf("cCoinsSend: %lld\n", cCoinsSend);
     }
     
     return nMinFee;
@@ -797,9 +793,7 @@ int64_t GetMinFee(const CTransaction& tx, unsigned int nBytes, bool fAllowFree, 
             }
             if(!found)
             {
-                if( cCoinsSend == 0  || (txout.nValue == cCoinsSend))
                 nMinFee += txout.nValue/TransactionFeeDivider;
-                cCoinsSend = 0;
             }
             else
             {
