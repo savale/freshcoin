@@ -454,6 +454,8 @@ ap.add_argument("-add-resources", nargs="+", metavar="path", default=[], help="l
 config = ap.parse_args()
 
 verbose = config.verbose[0]
+verbose = 3
+strip = False
 
 # ------------------------------------------------
 
