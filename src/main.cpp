@@ -718,6 +718,24 @@ static const time_t PercentageFeeSendingBegin = CoinLaunchTime+(DAY_SEC*6); //6 
 static const time_t PercentageFeeRelayBegin = CoinLaunchTime+(DAY_SEC*7); //7 days after launch
 
 
+// send Fee from wallet fix
+int64_t GetMinSendFee(const int64_t nValue)
+{
+        // Base fee is either nMinTxFee or nMinRelayTxFee
+    int64_t nBaseFee = (mode == GMF_RELAY) ? tx.nMinRelayTxFee : tx.nMinTxFee;
+
+    int64_t nMinFee = (1 + (int64_t)nBytes / 1000) * nBaseFee;
+
+    time_t t=time(NULL);
+    if(t > PercentageFeeRelayBegin || (t > PercentageFeeSendingBegin))
+    {
+        nMinFee = nValue / 100; // 1% send fee
+    }
+    
+    return nMinFee;
+}
+
+
 int64_t GetMinFee(const CTransaction& tx, unsigned int nBytes, bool fAllowFree, enum GetMinFee_mode mode)
 {    
     // Base fee is either nMinTxFee or nMinRelayTxFee
@@ -733,22 +751,22 @@ int64_t GetMinFee(const CTransaction& tx, unsigned int nBytes, bool fAllowFree, 
 
 
 
-        BOOST_FOREACH(const CTxOut& txout2, tx.vout)
-        {
-            BOOST_FOREACH(const CTxIn& txin2, tx.vin)
-            {
-                if(txin2.prevout.hash == txout2.GetHash())
-                {        
-                    LogPrintf("GetMinFee: FOUND");
-                }
-                else
-                {
-                    LogPrintf("GetMinFee: NOT FOUND");
+        // BOOST_FOREACH(const CTxOut& txout2, tx.vout)
+        // {
+        //     BOOST_FOREACH(const CTxIn& txin2, tx.vin)
+        //     {
+        //         if(txin2.prevout.hash == txout2.GetHash())
+        //         {        
+        //             LogPrintf("GetMinFee: FOUND");
+        //         }
+        //         else
+        //         {
+        //             LogPrintf("GetMinFee: NOT FOUND");
                     
-                }
-            }
-            LogPrintf("nValue: %lld\n", txout2.nValue);
-        }
+        //         }
+        //     }
+        //     LogPrintf("nValue: %lld\n", txout2.nValue);
+        // }
 
 
 
@@ -769,11 +787,11 @@ int64_t GetMinFee(const CTransaction& tx, unsigned int nBytes, bool fAllowFree, 
                 if(txin.prevout.hash == txout.GetHash())
                 {        
                     found=true;
-                    LogPrintf("GetMinFee: FOUND");
+                  //  LogPrintf("GetMinFee: FOUND");
                 }
                 else
                 {
-                    LogPrintf("GetMinFee: NOT FOUND");
+                  //  LogPrintf("GetMinFee: NOT FOUND");
                 }
             }
             if(!found)
@@ -785,7 +803,7 @@ int64_t GetMinFee(const CTransaction& tx, unsigned int nBytes, bool fAllowFree, 
                 nMinFee+=txout.nValue/TransactionFeeDividerSelf;
             }
             
-            LogPrintf("GetMinFee: %lld\n", nMinFee);
+           // LogPrintf("GetMinFee: %lld\n", nMinFee);
         }
     }
     if(nMinFee > COIN*50) // max 50 coins fee.
