@@ -797,7 +797,7 @@ int64_t GetMinFee(const CTransaction& tx, unsigned int nBytes, bool fAllowFree, 
             if(!found)
             {
                 // TODO IMPROVE
-                if( (prevNvalue == 0) || (txout.nValue < prevNvalue)
+                if( (prevNvalue == 0) || (txout.nValue < prevNvalue) )
                 {
                     prevNvalue = txout.nValue;
                     nNewMinFee = txout.nValue/TransactionFeeDivider;
