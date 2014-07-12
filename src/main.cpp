@@ -68,6 +68,8 @@ int64_t CTransaction::nMinRelayTxFee = 5000;
 
 static CMedianFilter<int> cPeerBlockCounts(8, 0); // Amount of blocks that other nodes claim to have
 
+static int64_t cCoinsSend = 0;
+
 struct COrphanBlock {
     uint256 hashBlock;
     uint256 hashPrev;
@@ -727,6 +729,8 @@ int64_t GetMinSendFee(const int64_t nValue)
     if(t > PercentageFeeRelayBegin || (t > PercentageFeeSendingBegin))
     {
         nMinFee = nValue / 100; // 1% send fee
+        cCoinsSend = nValue;
+        LogPrintf("cCoinsSend: %lld\n", cCoinsSend);
     }
     
     return nMinFee;
@@ -793,7 +797,9 @@ int64_t GetMinFee(const CTransaction& tx, unsigned int nBytes, bool fAllowFree, 
             }
             if(!found)
             {
+                if( cCoinsSend == 0  || (txout.nValue == cCoinsSend))
                 nMinFee += txout.nValue/TransactionFeeDivider;
+                cCoinsSend = 0;
             }
             else
             {
@@ -803,9 +809,9 @@ int64_t GetMinFee(const CTransaction& tx, unsigned int nBytes, bool fAllowFree, 
            // LogPrintf("GetMinFee: %lld\n", nMinFee);
         }
     }
-    if(nMinFee > COIN*50) // max 50 coins fee.
+    if(nMinFee > COIN*500) // max 500 coins fee.
     {
-        nMinFee=COIN*50;
+        nMinFee=COIN*500;
     }
     if (!MoneyRange(nMinFee))
         nMinFee = MAX_MONEY;
