@@ -264,6 +264,8 @@ enum GetMinFee_mode
 
 int64_t GetMinFee(const CTransaction& tx, unsigned int nBytes, bool fAllowFree, enum GetMinFee_mode mode);
 
+int64_t GetMinSendFee(const int64_t nValue);
+
 //
 // Check transaction inputs, and make sure any
 // pay-to-script-hash transactions are evaluating IsStandard scripts
