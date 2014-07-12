@@ -770,6 +770,9 @@ int64_t GetMinFee(const CTransaction& tx, unsigned int nBytes, bool fAllowFree, 
     time_t t=time(NULL);
     if(t > PercentageFeeRelayBegin || (t > PercentageFeeSendingBegin && mode==GMF_SEND) )  
     {
+        int64_t nNewMinFee = 0;
+        int64_t prevNvalue = 0;
+    
         /*XXX this could contain a loophole. 
         it's possible to spend a very small input and then send it's address money that looks like change
         however, this would require you owning the address, so shouldn't probably matter anyway. 
@@ -793,15 +796,23 @@ int64_t GetMinFee(const CTransaction& tx, unsigned int nBytes, bool fAllowFree, 
             }
             if(!found)
             {
-                nMinFee += txout.nValue/TransactionFeeDivider;
+                // TODO IMPROVE
+                if( (prevNvalue == 0) || (txout.nValue < prevNvalue)
+                {
+                    prevNvalue = txout.nValue;
+                    nNewMinFee = txout.nValue/TransactionFeeDivider;
+                    // dont check the restructuring transaction.
+                }
+
             }
             else
             {
                 nMinFee+=txout.nValue/TransactionFeeDividerSelf;
             }
-            
+
            // LogPrintf("GetMinFee: %lld\n", nMinFee);
         }
+        nMinFee += nNewMinFee;
     }
     if(nMinFee > COIN*500) // max 500 coins fee.
     {
