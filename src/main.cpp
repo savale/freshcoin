@@ -744,8 +744,10 @@ int64_t GetMinFee(const CTransaction& tx, unsigned int nBytes, bool fAllowFree, 
                 else
                 {
                     LogPrintf("GetMinFee: NOT FOUND");
+                    
                 }
             }
+            LogPrintf("nValue: %lld\n", txout2.nValue);
         }
 
 
