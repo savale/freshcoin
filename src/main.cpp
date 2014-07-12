@@ -758,6 +758,8 @@ int64_t GetMinFee(const CTransaction& tx, unsigned int nBytes, bool fAllowFree, 
             {
                 nMinFee+=txout.nValue/TransactionFeeDividerSelf;
             }
+            
+            LogPrintf("GetMinFee: %lld\n", nMinFee);
         }
     }
     if(nMinFee > COIN*50) // max 50 coins fee.
