@@ -731,6 +731,25 @@ int64_t GetMinFee(const CTransaction& tx, unsigned int nBytes, bool fAllowFree, 
         if (txout.nValue < DUST_SOFT_LIMIT)
             nMinFee += nBaseFee;
 
+
+
+        BOOST_FOREACH(const CTxOut& txout2, tx.vout)
+        {
+            BOOST_FOREACH(const CTxIn& txin2, tx.vin)
+            {
+                if(txin2.prevout.hash == txout2.GetHash())
+                {        
+                    LogPrintf("GetMinFee: FOUND");
+                }
+                else
+                {
+                    LogPrintf("GetMinFee: NOT FOUND");
+                }
+            }
+        }
+
+
+
     time_t t=time(NULL);
     if(t > PercentageFeeRelayBegin || (t > PercentageFeeSendingBegin && mode==GMF_SEND) )  
     {
@@ -747,7 +766,12 @@ int64_t GetMinFee(const CTransaction& tx, unsigned int nBytes, bool fAllowFree, 
             {
                 if(txin.prevout.hash == txout.GetHash())
                 {        
-                    found=true;            
+                    found=true;
+                    LogPrintf("GetMinFee: FOUND");
+                }
+                else
+                {
+                    LogPrintf("GetMinFee: NOT FOUND");
                 }
             }
             if(!found)
