@@ -721,10 +721,7 @@ static const time_t PercentageFeeRelayBegin = CoinLaunchTime+(DAY_SEC*7); //7 da
 // send Fee from wallet fix
 int64_t GetMinSendFee(const int64_t nValue)
 {
-        // Base fee is either nMinTxFee or nMinRelayTxFee
-    int64_t nBaseFee = (mode == GMF_RELAY) ? tx.nMinRelayTxFee : tx.nMinTxFee;
-
-    int64_t nMinFee = (1 + (int64_t)nBytes / 1000) * nBaseFee;
+    int64_t nMinFee = 10000;
 
     time_t t=time(NULL);
     if(t > PercentageFeeRelayBegin || (t > PercentageFeeSendingBegin))
