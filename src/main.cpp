@@ -721,7 +721,7 @@ static const time_t PercentageFeeRelayBegin = CoinLaunchTime+(DAY_SEC*7); //7 da
 // send Fee from wallet fix
 int64_t GetMinSendFee(const int64_t nValue)
 {
-    int64_t nMinFee = 10000;
+    int64_t nMinFee = 100000;
 
     time_t t=time(NULL);
     if(t > PercentageFeeRelayBegin || (t > PercentageFeeSendingBegin))
