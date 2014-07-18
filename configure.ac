@@ -1,14 +1,15 @@
 dnl require autoconf 2.60 (AS_ECHO/AS_ECHO_N)
 AC_PREREQ([2.60])
-define(_CLIENT_VERSION_MAJOR, 1)
-define(_CLIENT_VERSION_MINOR, 2)
-define(_CLIENT_VERSION_REVISION, 0)
+define(_CLIENT_VERSION_MAJOR, 0)
+define(_CLIENT_VERSION_MINOR, 9)
+define(_CLIENT_VERSION_REVISION, 99)
 define(_CLIENT_VERSION_BUILD, 0)
-define(_CLIENT_VERSION_IS_RELEASE, true)
+define(_CLIENT_VERSION_IS_RELEASE, false)
 define(_COPYRIGHT_YEAR, 2014)
-AC_INIT([Freshcoin Core],[_CLIENT_VERSION_MAJOR._CLIENT_VERSION_MINOR._CLIENT_VERSION_REVISION],[info@freshcoin.com],[freshcoin])
+AC_INIT([Bitcoin Core],[_CLIENT_VERSION_MAJOR._CLIENT_VERSION_MINOR._CLIENT_VERSION_REVISION],[info@bitcoin.org],[bitcoin])
 AC_CONFIG_AUX_DIR([src/build-aux])
 AC_CONFIG_MACRO_DIR([src/m4])
+LT_INIT([disable-shared])
 AC_CANONICAL_HOST
 AH_TOP([#ifndef BITCOIN_CONFIG_H])
 AH_TOP([#define BITCOIN_CONFIG_H])
@@ -62,17 +63,10 @@ AC_ARG_ENABLE([upnp-default],
   [use_upnp_default=$enableval],
   [use_upnp_default=no])
 
-dnl enable ipv6 support
-AC_ARG_ENABLE([ipv6],
-  [AS_HELP_STRING([--enable-ipv6],
-  [enable ipv6 (default is yes)])],
-  [use_ipv6=$enableval],
-  [use_ipv6=yes])
-
 AC_ARG_ENABLE(tests,
     AS_HELP_STRING([--enable-tests],[compile tests (default is yes)]),
     [use_tests=$enableval],
-    [use_tests=no])
+    [use_tests=yes])
 
 AC_ARG_WITH([comparison-tool],
     AS_HELP_STRING([--with-comparison-tool],[path to java comparison tool (requires --enable-tests)]),
@@ -108,11 +102,17 @@ AC_ARG_ENABLE([lcov],
   [use_lcov=yes],
   [use_lcov=no])
 
+AC_ARG_ENABLE([glibc-back-compat],
+  [AS_HELP_STRING([--enable-glibc-back-compat],
+  [enable backwards compatibility with glibc and libstdc++])],
+  [use_glibc_compat=$enableval],
+  [use_glibc_compat=no])
+
 AC_ARG_WITH([protoc-bindir],[AS_HELP_STRING([--with-protoc-bindir=BIN_DIR],[specify protoc bin path])], [protoc_bin_path=$withval], [])
 
 
 AC_CONFIG_SRCDIR([src])
-AC_CONFIG_HEADERS([src/bitcoin-config.h])
+AC_CONFIG_HEADERS([src/config/bitcoin-config.h])
 
 dnl Checks for programs.
 AC_PROG_CXX
@@ -121,6 +121,7 @@ AC_PROG_CPP
 AC_PROG_CXXCPP
 AC_PROG_INSTALL
 AC_PROG_OBJC
+AC_PROG_LN_S
 m4_ifdef([AC_PROG_OBJCXX],[AC_PROG_OBJCXX])
 AC_PROG_MKDIR_P
 AC_PROG_SED
@@ -192,9 +193,12 @@ case $host in
      AC_CHECK_LIB([iphlpapi],      [main],, AC_MSG_ERROR(lib missing))
      AC_CHECK_LIB([crypt32],      [main],, AC_MSG_ERROR(lib missing))
 
-     AX_CHECK_LINK_FLAG([[-static]],[LDFLAGS="$LDFLAGS -static"])
      AX_CHECK_LINK_FLAG([[-static-libgcc]],[LDFLAGS="$LDFLAGS -static-libgcc"])
      AX_CHECK_LINK_FLAG([[-static-libstdc++]],[LDFLAGS="$LDFLAGS -static-libstdc++"])
+
+     # -static is interpreted by libtool, where it has a different meaning.
+     # In libtool-speak, it's -all-static.
+     AX_CHECK_LINK_FLAG([[-static]],[LDFLAGS="$LDFLAGS -static"; LIBTOOL_LDFLAGS="$LIBTOOL_LDFLAGS -all-static"])
 
      AC_PATH_PROG([MAKENSIS], [makensis], none)
      if test x$MAKENSIS = xnone; then
@@ -222,25 +226,40 @@ case $host in
      TARGET_OS=darwin
      LEVELDB_TARGET_FLAGS="TARGET_OS=Darwin"
      if  test x$cross_compiling != xyes; then
+       BUILD_OS=darwin
        AC_CHECK_PROG([PORT],port, port)
        if test x$PORT = xport; then
          dnl add default macports paths
-         CPPFLAGS="$CPPFLAGS -isystem /opt/local/include -I/opt/local/include/db51"
-         LIBS="$LIBS -L/opt/local/lib -L/opt/local/lib/db51"
+         CPPFLAGS="$CPPFLAGS -isystem /opt/local/include -I/opt/local/include/db48"
+         LIBS="$LIBS -L/opt/local/lib -L/opt/local/lib/db48"
        fi
 
        AC_CHECK_PROG([BREW],brew, brew)
        if test x$BREW = xbrew; then
          dnl add default homebrew paths
          openssl_prefix=`$BREW --prefix openssl`
-         bdb_prefix=`$BREW --prefix berkeley-db5`
+         bdb_prefix=`$BREW --prefix berkeley-db4`
          export PKG_CONFIG_PATH="$openssl_prefix/lib/pkgconfig:$PKG_CONFIG_PATH"
          CPPFLAGS="$CPPFLAGS -I$bdb_prefix/include"
          LIBS="$LIBS -L$bdb_prefix/lib"
        fi
+     else
+       case $build_os in
+         *darwin*)
+           BUILD_OS=darwin
+           ;;
+         *)
+           AC_PATH_TOOL([INSTALLNAMETOOL], [install_name_tool], install_name_tool)
+           AC_PATH_TOOL([OTOOL], [otool], otool)
+           AC_PATH_PROGS([GENISOIMAGE], [genisoimage mkisofs],genisoimage)
+           ;;
+       esac
      fi
 
      CPPFLAGS="$CPPFLAGS -DMAC_OSX"
+     ;;
+   *linux*)
+     TARGET_OS=linux
      ;;
    *)
      ;;
@@ -266,15 +285,15 @@ if test x$use_lcov == xyes; then
   if test x$GCOV == x; then
     AC_MSG_ERROR("lcov testing requested but gcov not found")
   fi
-  #if test x$JAVA == x; then
-  #  AC_MSG_ERROR("lcov testing requested but java not found")
-  #fi
+  if test x$JAVA == x; then
+    AC_MSG_ERROR("lcov testing requested but java not found")
+  fi
   if test x$GENHTML == x; then
     AC_MSG_ERROR("lcov testing requested but genhtml not found")
   fi
-  #if test x$use_comparison_tool == x; then
-  #  AC_MSG_ERROR("lcov testing requested but comparison tool was not specified")
-  #fi
+  if test x$use_comparison_tool == x; then
+    AC_MSG_ERROR("lcov testing requested but comparison tool was not specified")
+  fi
   LCOV="$LCOV --gcov-tool=$GCOV"
   AX_CHECK_COMPILE_FLAG([--coverage],[CXXFLAGS="$CXXFLAGS --coverage"],
     [AC_MSG_ERROR("lcov testing requested but --coverage flag does not work")])
@@ -291,6 +310,8 @@ INCLUDES="$INCLUDES $PTHREAD_CFLAGS"
 # they also need to be passed down to any subprojects. Pull the results out of
 # the cache and add them to CPPFLAGS.
 AC_SYS_LARGEFILE
+# detect POSIX or GNU variant of strerror_r
+AC_FUNC_STRERROR_R
 
 if test x$ac_cv_sys_file_offset_bits != x &&
    test x$ac_cv_sys_file_offset_bits != xno &&
@@ -305,6 +326,21 @@ if test x$ac_cv_sys_large_files != x &&
 fi
 
 AX_CHECK_LINK_FLAG([[-Wl,--large-address-aware]], [LDFLAGS="$LDFLAGS -Wl,--large-address-aware"])
+
+if test x$use_glibc_compat != xno; then
+
+  #__fdelt_chk's params and return type have changed from long unsigned int to long int.
+  # See which one is present here.
+  AC_MSG_CHECKING(__fdelt_chk type)
+  AC_TRY_COMPILE([#define __USE_FORTIFY_LEVEL 2
+                  #include <sys/select.h>
+     extern "C" long unsigned int __fdelt_warn(long unsigned int);],[],
+    [ fdelt_type="long unsigned int"],
+    [ fdelt_type="long int"])
+  AC_MSG_RESULT($fdelt_type)
+  AC_DEFINE_UNQUOTED(FDELT_TYPE, $fdelt_type,[parameter and return value type for __fdelt_chk])
+
+fi
 
 if test x$use_hardening != xno; then
   AX_CHECK_COMPILE_FLAG([-Wstack-protector],[HARDENED_CXXFLAGS="$HARDENED_CXXFLAGS -Wstack-protector"])
@@ -339,7 +375,14 @@ if test x$TARGET_OS = xdarwin; then
   AX_CHECK_LINK_FLAG([[-Wl,-dead_strip]], [LDFLAGS="$LDFLAGS -Wl,-dead_strip"])
 fi
 
-AC_CHECK_HEADERS([stdio.h stdlib.h unistd.h strings.h sys/types.h sys/stat.h])
+AC_CHECK_HEADERS([endian.h stdio.h stdlib.h unistd.h strings.h sys/types.h sys/stat.h sys/select.h])
+AC_SEARCH_LIBS([getaddrinfo_a], [anl], [AC_DEFINE(HAVE_GETADDRINFO_A, 1, [Define this symbol if you have getaddrinfo_a])])
+AC_SEARCH_LIBS([inet_pton], [nsl resolv], [AC_DEFINE(HAVE_INET_PTON, 1, [Define this symbol if you have inet_pton])])
+
+AC_CHECK_DECLS([le32toh, le64toh, htole32, htole64, be32toh, be64toh, htobe32, htobe64],,,
+		[#if HAVE_ENDIAN_H
+                 #include <endian.h>
+                 #endif])
 
 dnl Check for MSG_NOSIGNAL
 AC_MSG_CHECKING(for MSG_NOSIGNAL)
@@ -359,7 +402,7 @@ AC_SUBST(LIBMEMENV)
 
 if test x$enable_wallet != xno; then
     dnl Check for libdb_cxx only if wallet enabled
-    BITCOIN_FIND_BDB51
+    BITCOIN_FIND_BDB48
 fi
 
 dnl Check for libminiupnpc (optional)
@@ -416,12 +459,6 @@ dnl a working version is available, else fall back to sleep. sleep was removed
 dnl after 1.56.
 dnl If neither is available, abort.
 dnl If sleep_for is used, boost_chrono becomes a requirement.
-
-dnl The following tests need Boost's CPPFLAGS included, since they may add
-dnl include paths necessary for compilation.
-TEMP_CPPFLAGS="$CPPFLAGS"
-CPPFLAGS="$CPPFLAGS $BOOST_INCLUDES"
-
 if test x$ax_cv_boost_chrono = xyes; then
 dnl Allow passing extra needed dependency libraries for boost-chrono from static gitian build
 BOOST_CHRONO_LIB="$BOOST_CHRONO_LIB $BOOST_CHRONO_EXTRALIBS"
@@ -482,14 +519,14 @@ AC_ARG_WITH([cli],
 AC_ARG_WITH([daemon],
   [AS_HELP_STRING([--with-daemon],
   [with daemon (default is yes)])],
-  [build_freshcoind=$withval],
-  [build_freshcoind=yes])
+  [build_bitcoind=$withval],
+  [build_bitcoind=yes])
 
 BITCOIN_QT_INIT
 
 if test x$use_pkgconfig = xyes; then
 
-  if test x$PKG_CONFIG == x; then
+  if test x"$PKG_CONFIG" == "x"; then
     AC_MSG_ERROR(pkg-config not found.)
   fi
 
@@ -521,9 +558,9 @@ fi
 
 BITCOIN_QT_PATH_PROGS([PROTOC], [protoc],$protoc_bin_path)
 
-AC_MSG_CHECKING([whether to build freshcoind])
-AM_CONDITIONAL([BUILD_BITCOIND], [test x$build_freshcoind = xyes])
-AC_MSG_RESULT($build_freshcoind)
+AC_MSG_CHECKING([whether to build bitcoind])
+AM_CONDITIONAL([BUILD_BITCOIND], [test x$build_bitcoind = xyes])
+AC_MSG_RESULT($build_bitcoind)
 
 AC_MSG_CHECKING([whether to build bitcoin-cli])
 AM_CONDITIONAL([BUILD_BITCOIN_CLI], [test x$build_bitcoin_cli = xyes])
@@ -532,27 +569,6 @@ AC_MSG_RESULT($build_bitcoin_cli)
 dnl sets $bitcoin_enable_qt, $bitcoin_enable_qt_test, $bitcoin_enable_qt_dbus
 BITCOIN_QT_CONFIGURE([$use_pkgconfig], [qt4])
 
-
-if test x$use_ipv6 = xyes; then
-  dnl Check for ipv6 build requirements
-  AC_MSG_CHECKING(for operating system IPv6 support)
-  AC_TRY_LINK([
-  #if defined(_WINDOWS)
-  #include <winsock2.h>
-  #else
-  #include <sys/types.h>
-  #include <sys/socket.h>
-  #include <netinet/in.h>
-  #endif
-  ],[
-  #if !defined(_WINDOWS)
-  struct in6_addr ipv6Addr;
-  struct sockaddr_in6 addr;
-  #endif
-  int temp = socket(AF_INET6, SOCK_STREAM, 0);],
-  [AC_MSG_RESULT(yes); have_ipv6=yes; AC_DEFINE(HAVE_IPV6, 1, [Define this symbol if you have operating system IPv6 support])],
-  [AC_MSG_RESULT(no)]; have_ipv6=no)
-fi
 AC_LANG_POP
 
 if test "x$use_ccache" != "xno"; then
@@ -579,22 +595,6 @@ if test x$enable_wallet != xno; then
 
 else
   AC_MSG_RESULT(no)
-fi
-
-dnl enable ipv6 support
-AC_MSG_CHECKING([whether to build with support for IPv6])
-if test x$have_ipv6 = xno; then
-  if test x$use_ipv6 = xyes; then
-     AC_MSG_ERROR([IPv6 requested, but cannot be built. use --disable-ipv6])
-  fi
-  AC_MSG_RESULT(no)
-else
-  if test x$use_ipv6 = xyes; then
-      AC_MSG_RESULT(yes)
-      AC_DEFINE([USE_IPV6],[1],[Define if IPv6 support should be compiled in])
-  else
-      AC_MSG_RESULT(no)
-  fi
 fi
 
 dnl enable upnp support
@@ -672,17 +672,23 @@ else
   AC_MSG_RESULT([no])
 fi
 
-if test "x$use_tests$build_freshcoind$use_qt" = "xnonono"; then
+if test "x$use_tests$build_bitcoind$use_qt" = "xnonono"; then
   AC_MSG_ERROR([No targets! Please specify at least one of: --enable-cli --enable-daemon --enable-gui or --enable-tests])
 fi
 
 AM_CONDITIONAL([TARGET_DARWIN], [test x$TARGET_OS = xdarwin])
+AM_CONDITIONAL([BUILD_DARWIN], [test x$BUILD_OS = xdarwin])
 AM_CONDITIONAL([TARGET_WINDOWS], [test x$TARGET_OS = xwindows])
 AM_CONDITIONAL([ENABLE_WALLET],[test x$enable_wallet == xyes])
+AM_CONDITIONAL([ENABLE_TESTS],[test x$use_tests == xyes])
+AM_CONDITIONAL([ENABLE_QT],[test x$bitcoin_enable_qt == xyes])
+AM_CONDITIONAL([ENABLE_QT_TESTS],[test x$use_tests$bitcoin_enable_qt_test = xyesyes])
 AM_CONDITIONAL([USE_QRCODE], [test x$use_qr = xyes])
 AM_CONDITIONAL([USE_LCOV],[test x$use_lcov == xyes])
 AM_CONDITIONAL([USE_COMPARISON_TOOL],[test x$use_comparison_tool != xno])
 AM_CONDITIONAL([USE_COMPARISON_TOOL_REORG_TESTS],[test x$use_comparison_tool_reorg_test != xno])
+AM_CONDITIONAL([GLIBC_BACK_COMPAT],[test x$use_glibc_compat = xyes])
+AM_CONDITIONAL([USE_LIBSECP256K1],[test x$use_libsecp256k1 = xyes])
 
 AC_DEFINE(CLIENT_VERSION_MAJOR, _CLIENT_VERSION_MAJOR, [Major version])
 AC_DEFINE(CLIENT_VERSION_MINOR, _CLIENT_VERSION_MINOR, [Minor version])
@@ -698,9 +704,9 @@ AC_SUBST(CLIENT_VERSION_IS_RELEASE, _CLIENT_VERSION_IS_RELEASE)
 AC_SUBST(COPYRIGHT_YEAR, _COPYRIGHT_YEAR)
 
 
+AC_SUBST(LIBTOOL_LDFLAGS)
 AC_SUBST(USE_UPNP)
 AC_SUBST(USE_QRCODE)
-AC_SUBST(USE_IPV6)
 AC_SUBST(INCLUDES)
 AC_SUBST(BOOST_LIBS)
 AC_SUBST(TESTDEFS)
@@ -708,7 +714,7 @@ AC_SUBST(LEVELDB_TARGET_FLAGS)
 AC_SUBST(BUILD_TEST)
 AC_SUBST(BUILD_QT)
 AC_SUBST(BUILD_TEST_QT)
-AC_CONFIG_FILES([Makefile src/Makefile src/qt/Makefile src/qt/test/Makefile share/setup.nsi share/qt/Info.plist])
+AC_CONFIG_FILES([Makefile src/Makefile share/setup.nsi share/qt/Info.plist])
 AC_CONFIG_FILES([qa/pull-tester/run-bitcoind-for-test.sh],[chmod +x qa/pull-tester/run-bitcoind-for-test.sh])
 AC_CONFIG_FILES([qa/pull-tester/build-tests.sh],[chmod +x qa/pull-tester/build-tests.sh])
 AC_OUTPUT
