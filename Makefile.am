@@ -73,7 +73,7 @@ $(OSX_APP)/Contents/Resources/bitcoin.icns: $(OSX_INSTALLER_ICONS)
 
 $(OSX_APP)/Contents/MacOS/Freshcoin-Qt: $(BITCOIN_QT_BIN)
 	$(MKDIR_P) $(@D)
-	$(INSTALL_STRIP_PROGRAM)  $< $@
+	$(INSTALL)  $< $@
 
 OSX_APP_BUILT=$(OSX_APP)/Contents/PkgInfo $(OSX_APP)/Contents/Resources/empty.lproj \
   $(OSX_APP)/Contents/Resources/bitcoin.icns $(OSX_APP)/Contents/Info.plist \
