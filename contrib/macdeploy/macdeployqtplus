@@ -322,8 +322,8 @@ def deployFrameworks(frameworks, bundlePath, binaryPath, strip, verbose, deploym
         if deployedBinaryPath is None:
             continue
         
-        if strip:
-            runStrip(deployedBinaryPath, verbose)
+        #if strip:
+        #    runStrip(deployedBinaryPath, verbose)
         
         # install_name_tool it a new id.
         changeIdentification(framework.deployedInstallName, deployedBinaryPath, verbose)
