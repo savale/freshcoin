@@ -176,4 +176,3 @@ script: |
   export GZIP="-9n"
   find native-prefix | sort | tar --no-recursion -czf osx-native-depends-$REVISION.tar.gz -T -
   mv osx-native-depends-$REVISION.tar.gz $OUTDIR
-
