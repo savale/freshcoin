@@ -11,6 +11,7 @@ AC_DEFUN([BITCOIN_FIND_BDB51],[
     done
   done
   for searchpath in $bdbdirlist ''; do
+    AC_MSG_CHECKING([${searchpath}])
     test -n "${searchpath}" && searchpath="${searchpath}/"
     AC_TRY_COMPILE([
       #include <${searchpath}db_cxx.h>
