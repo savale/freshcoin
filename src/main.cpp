@@ -1251,7 +1251,7 @@ int64_t GetBlockValue(int nHeight, int64_t nFees, uint256 prevHash)
         sub=0; //no coins
     }
 
-    return 10000*(sub+nFees); // oops wrong branch
+    return (sub+nFees); // oops wrong branch
 
 }
 
