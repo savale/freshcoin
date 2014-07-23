@@ -5,12 +5,13 @@ AC_DEFUN([BITCOIN_FIND_BDB51],[
   bdbpath=X
   bdb51path=X
   bdbdirlist=
-  for _vn in 5.1 51 5 1 ''; do
+  for _vn in 5.1 51 5 -5.1 _cxx-5.1 _5.1 _cxx ''; do
     for _pfx in b lib ''; do
       bdbdirlist="$bdbdirlist ${_pfx}db${_vn}"
     done
   done
   for searchpath in $bdbdirlist ''; do
+    AC_MSG_CHECKING([${searchpath}])
     test -n "${searchpath}" && searchpath="${searchpath}/"
     AC_TRY_COMPILE([
       #include <${searchpath}db_cxx.h>
@@ -37,7 +38,6 @@ AC_DEFUN([BITCOIN_FIND_BDB51],[
     ])
   done
   if test "x$bdbpath" = "xX"; then
-    AC_MSG_CHECKING([{$bdb51path}])
     AC_MSG_RESULT([no])
     AC_MSG_ERROR(libdb_cxx headers missing)
   elif test "x$bdb51path" = "xX"; then
