@@ -5,7 +5,7 @@ AC_DEFUN([BITCOIN_FIND_BDB51],[
   bdbpath=X
   bdb51path=X
   bdbdirlist=
-  for _vn in 5.1 51 5 ''; do
+  for _vn in 5.1.29 5.1 51 5 ''; do
     for _pfx in b lib ''; do
       bdbdirlist="$bdbdirlist ${_pfx}db${_vn}"
     done
@@ -41,7 +41,7 @@ AC_DEFUN([BITCOIN_FIND_BDB51],[
     AC_ARG_WITH([incompatible-bdb],[AS_HELP_STRING([--with-incompatible-bdb], [allow using a bdb version other than 5.1])],[
       AC_MSG_WARN([Found Berkeley DB other than 5.1; wallets opened by this build will not be portable!])
     ],[
-      AC_MSG_ERROR([Found Berkeley DB other than 5.1, required for portable wallets (--with-incompatible-bdb to ignore)])
+      AC_MSG_WARN([Found Berkeley DB other than 5.1, required for portable wallets (--with-incompatible-bdb to ignore)])
     ])
   else
     BITCOIN_SUBDIR_TO_INCLUDE(BDB_CPPFLAGS,[${bdb51path}],db_cxx)
