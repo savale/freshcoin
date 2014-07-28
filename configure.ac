@@ -227,8 +227,8 @@ case $host in
        AC_CHECK_PROG([PORT],port, port)
        if test x$PORT = xport; then
          dnl add default macports paths
-         CPPFLAGS="$CPPFLAGS -isystem /opt/local/include -I/opt/local/include/db51"
-         LIBS="$LIBS -L/opt/local/lib -L/opt/local/lib/db51 -L$bdb_prefix/lib"
+         CPPFLAGS="$CPPFLAGS -isystem /opt/local/include -I/opt/local/include/db51 -I/usr/include"
+         LIBS="$LIBS -L/opt/local/lib -L/opt/local/lib/db51 -L$bdb_prefix/lib -L/usr/include"
        fi
 
        AC_CHECK_PROG([BREW],brew, brew)
