@@ -67,7 +67,6 @@ BITCOIN_CORE_H = \
   sync.h \
   threadsafety.h \
   tinyformat.h \
-  triesync.h \
   txdb.h \
   txmempool.h \
   ui_interface.h \
