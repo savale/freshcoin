@@ -13,7 +13,7 @@ reference_datetime: "2013-06-01 00:00:00"
 remotes: []
 files:
 - "boost_1_55_0.tar.bz2"
-- "db-4.8.30.NC.tar.gz"
+- "db-5.1.29.NC.tar.gz"
 - "miniupnpc-1.9.tar.gz"
 - "openssl-1.0.1h.tar.gz"
 - "protobuf-2.5.0.tar.bz2"
@@ -24,7 +24,6 @@ files:
 script: |
 
   echo "fff00023dd79486d444c8e29922f4072e1d451fc5a4d2b6075852ead7f2b7b52  boost_1_55_0.tar.bz2" | sha256sum -c
-  echo "12edc0df75bf9abd7f82f821795bcee50f42cb2e5f76a6a281b85732798364ef  db-4.8.30.NC.tar.gz" | sha256sum -c
   echo "2923e453e880bb949e3d4da9f83dd3cb6f08946d35de0b864d0339cf70934464  miniupnpc-1.9.tar.gz" | sha256sum -c
   echo "9d1c8a9836aa63e2c6adb684186cbd4371c9e9dcc01d6e3bb447abf2d4d3d093  openssl-1.0.1h.tar.gz" | sha256sum -c
   echo "13bfc5ae543cf3aa180ac2485c0bc89495e3ae711fc6fab4f8ffe90dfb4bb677  protobuf-2.5.0.tar.bz2" | sha256sum -c
@@ -75,11 +74,11 @@ script: |
   tar xf /home/ubuntu/build/osx-native-depends-r3.tar.gz
 
   # bdb
-  SOURCE_FILE=${SOURCES_PATH}/db-4.8.30.NC.tar.gz
-  BUILD_DIR=${BUILD_BASE}/db-4.8.30.NC
+  SOURCE_FILE=${SOURCES_PATH}/db-5.1.29.NC.tar.gz
+  BUILD_DIR=${BUILD_BASE}/db-5.1.29.NC
 
   tar -C ${BUILD_BASE} -xf ${SOURCE_FILE}
-  sed -i 's/__atomic_compare_exchange/__atomic_compare_exchange_db/g' ${BUILD_DIR}/dbinc/atomic.h
+  sed -i 's/__atomic_compare_exchange/__atomic_compare_exchange_db/g' ${BUILD_DIR}/src/dbinc/atomic.h
   pushd ${BUILD_DIR}
   cd build_unix;
   ../dist/configure --host=${HOST} --prefix="${PREFIX}" --disable-shared --enable-cxx CC="${INT_CC}" CXX="${INT_CXX}" AR="${INT_AR}" RANLIB="${INT_RANLIB}" OBJC="${INT_OBJC}" OBJCXX="${INT_OBJCXX}" CFLAGS="${INT_CFLAGS}" CXXFLAGS="${INT_CXXFLAGS}" LDFLAGS="${INT_CLANG_LDFLAGS} ${INT_LDFLAGS}" CPPFLAGS="${INT_CPPFLAGS}"
