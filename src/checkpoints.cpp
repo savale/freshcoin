@@ -52,10 +52,11 @@ genesis.GetHash = 0000093be1e48936fb6a1faed607e63654d674ad6fefc65236a3e516b841bb
         (     0, uint256("0x0000093be1e48936fb6a1faed607e63654d674ad6fefc65236a3e516b841bbb5"))
         (    1102, uint256("0x00000000000b71d53f01611c527bf9b3cfa32c6daa8fff9db98dd63c5b1ab5b1"))
         (    7386, uint256("0x000000000056e8e7306ba928864cf3b316e0a7c465824c23f1ae070616fad899")) 
+        (    32203, uint256("0x000000001aa81999c59cddf7d8ec407dbed9aac7e1d0f94525843309ea397ab4")) 
         ;
     static const CCheckpointData data = {
         &mapCheckpoints,
-        1405201934, // * UNIX timestamp of last checkpoint block
+        1406800935, // * UNIX timestamp of last checkpoint block
         0,    // * total number of transactions between genesis and last checkpoint
                     //   (the tx=... number in the SetBestChain debug.log lines)
         60*60*24*2+100      // * estimated number of transactions per day after checkpoint
