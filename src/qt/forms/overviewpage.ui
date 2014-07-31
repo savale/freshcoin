@@ -5,9 +5,6 @@
   <property name="autoFillBackground">
    <bool>true</bool>
   </property>
-  <property name="styleSheet">
-   <string notr="true">background-color: rgb(254, 254, 254)</string>
-  </property>
   <property name="geometry">
    <rect>
     <x>0</x>
