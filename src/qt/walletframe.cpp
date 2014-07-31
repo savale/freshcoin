@@ -49,7 +49,8 @@ bool WalletFrame::addWallet(const QString& name, WalletModel *walletModel)
     walletView->showOutOfSyncWarning(bOutOfSync);
 
      /* TODO we should goto the currently selected page once dynamically adding wallets is supported */
-    walletView->setStyleSheet("background-color:white;");
+    //walletView->setStyleSheet("background-color:white;");
+    walletView->setStyleSheet("background:rgb(246,246,246);");
     walletView->gotoOverviewPage();
     walletStack->addWidget(walletView);
     mapWalletViews[name] = walletView;
