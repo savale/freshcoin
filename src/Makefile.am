@@ -60,8 +60,10 @@ BITCOIN_CORE_H = \
   rpcprotocol.h \
   rpcserver.h \
   script.h \
-  sph_blake.h sph_cubehash.h sph_groestl.h sph_keccak.h sph_shavite.h sph_skein.h \
-  sph_bmw.h sph_echo.h sph_jh.h sph_luffa.h sph_simd.h sph_types.h \
+  sph_shavite.h \
+  sph_echo.h \
+  sph_simd.h \
+  sph_types.h \
   hashblock.h \
   serialize.h \
   sync.h \
@@ -142,17 +144,9 @@ libbitcoin_common_a_SOURCES = \
   rpcprotocol.cpp \
   script.cpp \
   aes_helper.c \
-  blake.c \
-  bmw.c \
-  cubehash.c \
   echo.c \
-  groestl.c \
-  jh.c \
-  keccak.c \
-  luffa.c \
   shavite.c \
   simd.c \
-  skein.c \
   sync.cpp \
   util.cpp \
   version.cpp \
